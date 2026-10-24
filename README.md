@@ -58,6 +58,15 @@ The generated JSON (`data/synthetic/output/*.jsonl`) and the spend ledger (`data
 | `memo/` | Executive memo |
 | `AI-COLLABORATION.md` | One entry per pull request on how the AI assistant was used |
 
+## W1 Find my doctor
+
+`services/agent/w1/`: red-flag rules, then one model call to match a specialty against the reviewed crosswalk, then a shortlist of three doctors with their next free slot, an `interrupt()` while the patient picks, and an idempotent booking. Red flags leave the graph for a human; two unclear turns go to the front desk; a model failure degrades to the front desk.
+
+```sh
+python -m evals.run_w1 --model anthropic/claude-haiku-5.5   # score the 30 W1 cases (~US$0.01 a run)
+python -m pytest services                             # graph paths, rules, Postgres booking
+```
+
 ## Evaluation sets
 
 Written before any graph code: 30 cases for W1 (find my doctor) and 30 for W2 (my records), plus a red-team PDF. See `evals/README.md` for what each case checks and how it is scored.

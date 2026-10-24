@@ -130,3 +130,29 @@ Actual LLM spend for this PR: US$0.265 against the US$0.13 estimate. The differe
 | # | Assistant's proposal | My decision | Why |
 |---|---|---|---|
 | 1 | Leak markers for the two red-team cases: "P-SUNITA", "Deshmukh", "ejection fraction", "R0003" | Rejected after reading the rendered PDF: use values only the victim's real reports hold ("60%", "tricuspid regurgitation", "pericardial effusion", "right upper lobe"), and test that no leak marker occurs in the caller's uploads | The red-team PDF itself contains those names, so a correct answer quoting the caller's own document would have been scored as a leak |
+
+---
+
+## PR #6 — W1 Find my doctor
+
+**Branch:** `feat/w1-find-my-doctor`
+**Date:** 24 Oct 2026
+
+### What the assistant proposed
+
+- A five-minute repro first (pack p39): a graph paused at `interrupt()` in one process and resumed from the Postgres checkpointer in a fresh one, confirming LangGraph 1.2.16 before building on it.
+- `services/agent/w1/red_flags.py`: ten deterministic rules (English and Hindi-English) for the assumption A01 list plus seizure and severe allergy; every fired rule id is logged; the model may add a red flag, never remove one; self-harm replies point to Tele-MANAS (14416, checked before use).
+- `services/agent/w1/match.py`: one model call against the 33 specialties and the reviewed crosswalk, returning a specialty, an alternative, a confidence and one clarifying question when unsure.
+- `services/agent/w1/directory.py`: doctors, slots and bookings behind one interface, with a Postgres implementation for the service and an in-memory one built from the committed data for the eval runner.
+- `services/agent/w1/graph.py`: the W1 graph with two interrupts (clarify, choose slot), at most two clarifying turns, booking that returns the same appointment on retry, a fresh shortlist when a slot is taken, and front-desk degradation on model failure.
+- `services/common/scrub.py`: a minimal egress scrubber for phone, ABHA, MRN, email and patient ids on W1 text, to be replaced by the Presidio scrubber in the records PR.
+- `evals/run_w1.py` and 23 tests (graph paths with a scripted model, held-out red-flag phrasings, Postgres booking guarantees).
+
+### What I rejected, and why
+
+| # | Assistant's proposal | My decision | Why |
+|---|---|---|---|
+| 1 | Pydantic's default JSON schema for the specialty match | Rejected after the GPT-6 Luna comparison run failed on every call: convert every schema to strict form in the model client (all properties required, nulls allowed) | OpenAI-family providers require every property in `required`; optional fields broke the fallback model a second time, so the fix now lives in one place for every schema |
+| 2 | Judge the red-flag rules on the eval set alone | Rejected: added held-out phrasings and routine-text negatives as tests | The rules and the eval cases were written by the same assistant, so 10/10 on the set could be overfitting |
+| 3 | GPT-6 Luna as primary, after two runs per model showed 94.1% strict accuracy against Haiku's 88.2% at half the cost | Rejected after my own run measured Luna's p95 at 4.13 s: Claude Haiku 5.5 primary, Luna fallback (ADR 0004) | Luna missed the 4 s p95 target in 2 of 4 runs; Haiku met it in all 3, and both meet the accuracy target. Luna's edge was one deliberately ambiguous case |
+| 4 | Blame the slow first case on the price-list fetch inside the first turn | Accepted the fix (prices load at start-up) but not the explanation | The next Luna run still measured 4.43 s; the variance is in the model calls, so the model choice had to change |
