@@ -4,18 +4,36 @@ An agentic patient and doctor assistant for Sahyog Health Network (a fictional c
 
 **Tier reached:** in progress, targeting Core. **Delivery:** solo.
 
-## What is here so far
+## Quick start
+
+Requires Docker Desktop and Python 3.12.
+
+```sh
+cp .env.example .env            # then add your keys locally; .env is git-ignored
+docker compose -f infra/docker-compose.yml up -d   # Postgres + pgvector, Redis
+python3.12 -m venv .venv && source .venv/bin/activate
+pip install -e ".[dev]"
+```
+
+Services, the worker and the graphs join the compose file as they are built.
+
+## Repository map
 
 | Path | What it is |
 |---|---|
 | `docs/prd-lite.md` | Personas, journeys, epics and testable acceptance criteria |
-| `docs/architecture.md` | Proposed Core-tier architecture and decisions awaiting confirmation |
+| `docs/architecture.md` | Core-tier architecture and the 20 decisions |
+| `docs/adr/` | Architecture decision records |
+| `docs/task-cards.md` | D1 automation ladder: 18 tasks, each on a rung |
+| `docs/discovery-questions.md` | D2 discovery questions and the decision each unlocks |
+| `docs/assumptions.md` | D3 assumptions register: owner, validation, fallback |
+| `docs/data-contracts/` | D4 data contracts (to come) |
+| `data/` | Inventory, transforms with tests, synthetic-data prompts |
+| `services/` | agent (LangGraph graphs), scheduling, records, scribe |
+| `evals/` | Eval sets, runs and the report |
+| `infra/` | docker-compose and database init |
+| `memo/` | Executive memo |
 | `AI-COLLABORATION.md` | One entry per pull request on how the AI assistant was used |
-| `.env.example` | Settings to copy into a local, git-ignored `.env` |
-
-## Running it
-
-Not runnable yet. The one-command start (`docker compose up`) arrives with the scaffold pull request.
 
 ## Data
 
