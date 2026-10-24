@@ -67,6 +67,18 @@ python -m evals.run_w1 --model anthropic/claude-haiku-5.5   # score the 30 W1 ca
 python -m pytest services                             # graph paths, rules, Postgres booking
 ```
 
+## W2 My records
+
+`services/records/` and `services/agent/w2/`: report PDFs are parsed, identifiers replaced by tokens, instruction-like sentences removed, chunked by section and embedded locally with BGE-M3 (ONNX Runtime) on the RQ worker. A question passes a consent check (own records, or a valid consent row), scope and safety rules, then retrieval restricted to that patient in SQL, one cited answer and a verification step. Every document read is written to the append-only audit table.
+
+```sh
+python -m spacy download en_core_web_lg            # name detection in typed questions (ADR 0006)
+python -m data.load                                # applies infra/db/init/003-records.sql
+python -m services.records.ingest --synthetic      # index the 100 reports (first run downloads BGE-M3, ~2.3 GB)
+rq worker ingest --url $REDIS_URL                  # worker for uploads (macOS: --worker-class rq.SimpleWorker)
+python -m evals.run_w2 --model anthropic/claude-haiku-5.5   # score the 30 W2 cases (~US$0.005 a run)
+```
+
 ## Evaluation sets
 
 Written before any graph code: 30 cases for W1 (find my doctor) and 30 for W2 (my records), plus a red-team PDF. See `evals/README.md` for what each case checks and how it is scored.

@@ -17,7 +17,8 @@ from dotenv import load_dotenv
 
 from data.transforms.common import PROCESSED, REFERENCE, REPO
 
-SCHEMA = REPO / "infra" / "db" / "init" / "002-schema.sql"
+# 001 (extensions) runs once at container start; 002+ are idempotent and re-applied on every load.
+SCHEMAS = sorted((REPO / "infra" / "db" / "init").glob("00[2-9]-*.sql"))
 
 
 def _null(v):
@@ -81,7 +82,8 @@ def main(database_url: str | None = None) -> dict[str, int]:
     })
     counts: dict[str, int] = {}
     with psycopg.connect(url) as conn, conn.cursor() as cur:
-        cur.execute(Path(SCHEMA).read_text())
+        for schema in SCHEMAS:
+            cur.execute(Path(schema).read_text())
         # Hospitals before clinics, so the parent foreign key resolves.
         counts["clinic"] = upsert(cur, "clinic", sites.sort_values("kind", ascending=False), ["site_id"])
         counts["specialty"] = upsert(cur, "specialty", specialties, ["specialty_id"])

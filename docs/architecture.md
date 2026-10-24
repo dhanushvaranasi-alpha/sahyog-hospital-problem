@@ -81,15 +81,16 @@ flowchart LR
     U[upload received] --> P[parse PDF] --> T[tag PHI] --> C[chunk by section] --> EM[embed, batched, cached by hash] --> IX[index + link to patient]
   end
   subgraph Ask
-    Q[question + patient_id from auth] --> SG{scope guard}
+    Q[question + caller from auth] --> AC{consent check<br/>self / valid / expired / revoked}
+    AC --> SG{scope + safety rules}
     SG --> R[retrieve<br/>patient filter in SQL]
-    R --> GR{grade context}
-    GR -->|weak, once| R
-    GR --> AN[answer with citations<br/>doc_id + page]
-    AN --> SC{safety check<br/>no diagnosis or dose}
-    SC --> OUT[respond or hand off]
+    R --> AN[answer with citations<br/>report id + page]
+    AN --> VF{verify: citations retrieved,<br/>numbers in excerpts, no advice}
+    VF --> OUT[respond, not in record, hand off or refuse<br/>audit each document read]
   end
 ```
+
+As built (PR #7): the "grade context, retrieve again once" loop of v0.1 was left out. Retrieval put the expected report in the top 8 for 13 of 13 answerable W2 cases, so a second retrieval would add a model call without a measured gain; the verify step rejects answers the excerpts do not support instead. Revisit if retrieval recall drops below 100% on the set.
 
 ## 4. Decisions
 
@@ -104,8 +105,8 @@ Versions checked on PyPI / Hugging Face / OpenRouter on 24 Oct 2026. Rows 16–2
 | 5 | LLM access | **OpenRouter** behind one `ModelClient` interface (OpenAI-compatible) | Vendor swappable by config (p4 constraint); one key, US$4 budget | Budget or residency terms change |
 | 6 | Primary model | **`anthropic/claude-haiku-5.5`**, chosen by measurement (ADR 0004): p95 2.9–3.2 s in 3 runs against 3.4–4.4 s for GPT-6 Luna; strict accuracy 88.2% vs 94.1%, both 100% red-flag recall | Both meet the accuracy target; only Haiku meets the 4 s latency target reliably | Strict accuracy below 85% or p95 above 3.5 s |
 | 7 | Fallback model | `openai/gpt-6-luna` — different provider | A fallback that is configured and tested, not just named (p36); it ran the full W1 set four times | — |
-| 8 | Embeddings | **BGE-M3** local (BAAI, MIT licence, 1,024 dimensions, 2.27 GB download) | Matches the pack's 1,024-dim sizing; multilingual for Hindi/Marathi later; costs nothing against the budget; report text never leaves the laptop for embedding | Ingest too slow on CPU |
-| 9 | PII detection | presidio-analyzer / presidio-anonymizer **2.2.364** + custom Indian phone and ABHA recognisers | Pack's choice (p21); token map kept locally | — |
+| 8 | Embeddings | **BGE-M3** local (BAAI, MIT licence, 1,024 dimensions, 2.27 GB download) | Matches the pack's 1,024-dim sizing; multilingual for Hindi/Marathi later; costs nothing against the budget; report text never leaves the laptop for embedding. Runs on ONNX Runtime, not PyTorch (ADR 0005) | Ingest too slow on CPU |
+| 9 | PII detection | presidio-analyzer / presidio-anonymizer **2.2.364** + custom Indian phone and ABHA recognisers | Pack's choice (p21); token map kept locally. Name NER runs on typed questions only (ADR 0006) | — |
 | 10 | Tracing | **LangSmith** (langsmith 0.14.12) | Native LangGraph integration, set up with environment variables; all data is synthetic, so a hosted tracer is acceptable here | Real identified data enters: tracing must move in-region or self-hosted |
 | 11 | Ingest execution | **Redis + RQ worker** (redis 8.1.0, rq 2.12.0); upload returns a job id; status endpoint reads the job | Never hold an HTTP connection open for a PDF (p36); a real queue matches the pack's container view (p23) and lets ingest scale apart from the API | Ingest volume needs parallel workers (Architect: Send API) |
 | 12 | Auth | Signed token stub carrying role, user_id, patient_id into graph state | Tools never trust a patient_id the model typed (p36); OIDC + OTP deferred | Pro/Architect |

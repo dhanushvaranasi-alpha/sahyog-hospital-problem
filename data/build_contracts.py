@@ -22,7 +22,8 @@ SPEC = {
                 "grantee_id is a known patient or staff id (100%)"],
         consumers=["Records service access check", "Audit queries"], source="Created by the patient; persona row seeded"),
     "document": dict(owner="Records service owner", sensitivity="direct", freshness="Status visible within 60 s of upload (E3-S1)",
-        checks=["patient_id not null (100%)", "phi_status in (pending, tagged, failed)", "uri resolves to a stored file (100%)"],
+        checks=["patient_id not null (100%)", "phi_status in (pending, tagged, failed)", "uri resolves to a stored file (100%)",
+                "(patient_id, content_hash) unique: re-upload is a no-op", "header patient matches patient_id, else refused"],
         consumers=["W2 ingest", "W2 ask (citations)"], source="Patient uploads; 100 synthetic reports"),
     "doc_chunk": dict(owner="Records service owner", sensitivity="direct",
         freshness="Re-embedded when content_hash changes",
@@ -30,6 +31,11 @@ SPEC = {
                 "content_hash unique per doc_id and page"],
         consumers=["W2 retrieval (patient filter in SQL)", "Citation check"],
         source="W2 ingest graph from document"),
+    "doc_phi_token": dict(owner="Records service owner", sensitivity="direct",
+        freshness="Written with its document in one transaction; deleted with it",
+        checks=["(doc_id, token) unique", "every token in a doc_chunk.text resolves (tested)",
+                "never sent to an external service (only tokens leave)"],
+        consumers=["W2 ask re-identification for the entitled reader"], source="W2 ingest graph, tag_phi step"),
     "ingest_job": dict(owner="Platform", sensitivity="operational", freshness="Updated at every state change",
         checks=["status in (queued, running, done, failed)", "no job running longer than 10 minutes"],
         consumers=["Upload status endpoint", "Operations dashboard"], source="RQ worker"),
@@ -89,6 +95,9 @@ SPEC = {
         consumers=["Synthetic report generator", "W3 dictation seeds (Pro)"], source="Medical Transcriptions (CC0)"),
 }
 
+# Tables added after the sign-off below; cleared when the compliance officer reviews them.
+PENDING_SIGNOFF = ["doc_phi_token"]
+
 TREATMENT = {
     "direct": "Never leaves the boundary. Tokenise before any external call; Presidio plus Indian phone and ABHA recognisers.",
     "quasi": "Leaves only generalised: age band instead of birth date, district instead of pincode.",
@@ -116,7 +125,9 @@ def main() -> None:
              "## Sensitivity classes", "", "| Class | Treatment |", "|---|---|",
              *[f"| {k} | {v} |" for k, v in TREATMENT.items()], "",
              "## Compliance sign-off of the class column", "",
-             "Signed off by: Dhanush (compliance officer, in role) · Date: 2026-10-24", ""]
+             "Signed off by: Dhanush (compliance officer, in role) · Date: 2026-10-24", "",
+             *([f"Added after that sign-off and awaiting review: {', '.join(f'`{t}`' for t in PENDING_SIGNOFF)}.", ""]
+               if PENDING_SIGNOFF else [])]
     (OUT / "README.md").write_text("\n".join(index))
     print(f"wrote {len(SPEC)} contracts to {OUT}")
 
