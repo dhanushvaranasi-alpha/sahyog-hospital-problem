@@ -28,6 +28,9 @@ dependencies = [
   "pandas==3.0.6",
   "pyarrow==26.0.0",
   "kaggle==2.2.4",
+  # Synthetic layer (PR #4)
+  "fpdf2==2.8.9",
+  "httpx==0.28.1",
 ]
 
 [project.optional-dependencies]
@@ -35,7 +38,7 @@ dev = ["pytest==9.1.1"]
 
 [tool.pytest.ini_options]
 pythonpath = ["."]
-testpaths = ["data/transforms/tests", "services", "evals"]
+testpaths = ["data/transforms/tests", "data/synthetic/tests", "services", "evals"]
 
 [build-system]
 requires = ["setuptools>=68"]

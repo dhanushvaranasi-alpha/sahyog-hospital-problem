@@ -15,7 +15,7 @@ venv/
 # Data: raw downloads and generated binaries stay out of git
 data/raw/
 data/processed/
-data/synthetic/output/
+data/synthetic/output/pdfs/
 data/synthetic/pdfs/
 *.pdf
 !evals/sets/redteam/*.pdf

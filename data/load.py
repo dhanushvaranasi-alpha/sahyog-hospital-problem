@@ -41,10 +41,13 @@ def upsert(cur: psycopg.Cursor, table: str, df: pd.DataFrame, key: list[str]) ->
     with cur.copy(f"COPY _stage ({', '.join(cols)}) FROM STDIN") as cp:
         for row in _rows(df):
             cp.write_row(row)
-    updates = ", ".join(f"{c} = EXCLUDED.{c}" for c in cols if c not in key) or f"{key[0]} = EXCLUDED.{key[0]}"
+    non_key = [c for c in cols if c not in key] or key[:1]
+    updates = ", ".join(f"{c} = EXCLUDED.{c}" for c in non_key)
+    # Skip unchanged rows: an unconditional update rewrites every row and bloats the table on each reload.
+    changed = f"({', '.join(f'{table}.{c}' for c in non_key)}) IS DISTINCT FROM ({', '.join(f'EXCLUDED.{c}' for c in non_key)})"
     cur.execute(
         f"INSERT INTO {table} ({', '.join(cols)}) SELECT {', '.join(cols)} FROM _stage "
-        f"ON CONFLICT ({', '.join(key)}) DO UPDATE SET {updates}"
+        f"ON CONFLICT ({', '.join(key)}) DO UPDATE SET {updates} WHERE {changed}"
     )
     n = cur.rowcount
     cur.execute("DROP TABLE _stage")

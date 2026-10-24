@@ -79,3 +79,33 @@ One entry per pull request: what the AI assistant proposed, what I rejected, and
 | 2 | Keep symptom severity as produced by the merge | Rejected after the load failed on "3.0": cast to a nullable integer | The merge turned the column into floats, which Postgres refused for an integer column |
 | 3 | Treat only `None`, `NaN` and `NaT` as missing in the loader | Rejected after the load failed on `pd.NA`: map every pandas missing marker to NULL | pandas 3 uses `pd.NA` in nullable columns, which psycopg cannot adapt |
 | 4 | Read the licence from the top level of Kaggle's `dataset-metadata.json` | Rejected after the inventory showed "not stated" for all five sources: read it from the `info` block | `kaggle datasets metadata` nests the fields under `info`; the licences were CC BY-NC-SA 4.0, CC BY-SA 4.0 (×2) and CC0 (×2) |
+
+---
+
+## PR #4 — Synthetic layer, D4 data contracts and D5 sizing
+
+**Branch:** `feat/synthetic-data`
+**Date:** 24 Oct 2026
+
+### What the assistant proposed
+
+- `services/common/llm.py`: one model client for every call, with schema validation (reject, never repair), a timeout, a fallback model, prices fetched from OpenRouter at run time, and an append-only spend ledger with a US$2.00 hard stop.
+- Doctors: code decides specialty and clinic (at least ten per specialty, every site staffed); the LLM writes only names, gender, languages and years, in 10 batches of 50 against a versioned prompt.
+- Patients (1,000) and slots (96,000) by plain code, including the two personas and Priya's caregiver consent for her mother.
+- 100 report PDFs: the LLM rewrites a cleaned transcription as a report, code adds the identifying header and renders the PDF.
+- D4: 21 data contracts on the pack's template, one per table, generated from one spec. D5: sizing from measured counts, with the pack's three checks.
+- Estimated LLM cost for this PR: about US$0.13.
+
+### What I rejected, and why
+
+| # | Assistant's proposal | My decision | Why |
+|---|---|---|---|
+| 1 | Accept the 500 generated doctors as returned | Rejected after the audit test found 29 repeated names: reject the later copies and regenerate them with the taken names listed | Batches of 50 cannot see each other's names; the pack asks for a duplicate audit |
+| 2 | JSON schemas without `additionalProperties: false` | Rejected after the fallback model refused every call: close every schema, then smoke-test the fallback | OpenAI-family providers require closed schemas; a fallback that was never called was not a fallback (p36) |
+| 3 | 1,800 output tokens per report | Rejected after replies were cut off mid-JSON (`finish_reason: length`): 3,500 tokens | Long sources produced truncated, invalid JSON |
+| 4 | Choose report sources by their transcription label | Rejected after the first 100 came out 47% cardiology and 3% radiology: classify sources by content (title, lab section) and fix the mix at 40 lab / 35 radiology / 15 cardiology / 10 discharge (assumption A07) | The PR #3 de-duplication keeps the alphabetically first specific label, so most imaging notes carry a clinical label |
+| 5 | Random sources for the demo personas | Rejected after Priya's mother drew "MRI Brain – Cryptococcus": persona sources filtered to coherent ones (glucose labs, echocardiogram, chest CT) | The personas carry the demo; their records must fit a 62-year-old diabetic |
+| 6 | Prompt `reports_v1` | Rejected after a rendered PDF showed a 62-year-old's report describing "a 40-year-old female": `reports_v2` forbids ages and pronouns, and the schema now rejects them; 51 drafts regenerated | 47 of 100 reports copied the source note's age, contradicting the header |
+| 7 | Loader upsert that updates every conflicting row | Rejected after a reload grew the database to 277 MB of dead rows: update only rows that changed | A reload now grows the database by about 1 MB |
+
+Actual LLM spend for this PR: US$0.265 against the US$0.13 estimate. The difference is the regeneration in rows 1, 4 and 6 and retries of replies the schema rejected; every call is in `data/llm_ledger.jsonl`.

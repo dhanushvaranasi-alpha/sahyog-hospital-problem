@@ -24,8 +24,20 @@ bash data/fetch_datasets.sh        # needs a Kaggle token in ~/.kaggle/access_to
 python -m data.transforms.run      # clean each source -> data/processed/ with a tally of every dropped row
 python -m data.load                # schema + reference data + cleaned history -> Postgres
 python -m data.build_inventory     # regenerate data/inventory.md
-pytest                             # transform, reference, real-data and database tests
+python -m pytest                   # transform, reference, real-data and database tests
 ```
+
+## Synthetic layer
+
+```sh
+python -m data.synthetic.doctors          # 500 doctors (LLM names; resumes; ~US$0.03)
+python -m data.synthetic.reports          # 100 report drafts (LLM; resumes; ~US$0.10)
+python -m data.synthetic.reports --render # 100 PDFs into data/synthetic/output/pdfs/ (git-ignored)
+python -m data.synthetic.load             # doctors, patients, slots and the persona consent -> Postgres
+python -m data.build_contracts            # regenerate docs/data-contracts/
+```
+
+The generated JSON (`data/synthetic/output/*.jsonl`) and the spend ledger (`data/llm_ledger.jsonl`) are committed, so nobody has to pay to regenerate them.
 
 ## Repository map
 
@@ -37,7 +49,8 @@ pytest                             # transform, reference, real-data and databas
 | `docs/task-cards.md` | D1 automation ladder: 18 tasks, each on a rung |
 | `docs/discovery-questions.md` | D2 discovery questions and the decision each unlocks |
 | `docs/assumptions.md` | D3 assumptions register: owner, validation, fallback |
-| `docs/data-contracts/` | D4 data contracts (to come) |
+| `docs/data-contracts/` | D4 data contracts, one per table |
+| `docs/data-sizing.md` | D5 sizing and the three "is there enough data" checks |
 | `data/` | Download script, transforms with tests, reference data, loader, inventory |
 | `services/` | agent (LangGraph graphs), scheduling, records, scribe |
 | `evals/` | Eval sets, runs and the report |
