@@ -109,3 +109,24 @@ One entry per pull request: what the AI assistant proposed, what I rejected, and
 | 7 | Loader upsert that updates every conflicting row | Rejected after a reload grew the database to 277 MB of dead rows: update only rows that changed | A reload now grows the database by about 1 MB |
 
 Actual LLM spend for this PR: US$0.265 against the US$0.13 estimate. The difference is the regeneration in rows 1, 4 and 6 and retries of replies the schema rejected; every call is in `data/llm_ledger.jsonl`.
+
+---
+
+## PR #5 — Evaluation sets, written before any graph code
+
+**Branch:** `feat/eval-sets`
+**Date:** 24 Oct 2026
+
+### What the assistant proposed
+
+- `evals/schema.py`: the case format from pack p45 (id, input, expect, must_not, source, added_by, version), with separate input and expectation models for W1 and W2.
+- `evals/sets/w1_triage.jsonl`, 30 cases: 10 red flags covering assumption A01 (including the pack's case A, a night-time case, hypoglycaemia after the crosswalk review, and Hindi-English phrasings), 15 specialty matches grounded in the reviewed crosswalk (including pack case B and a "chest burning" case that must not fire a red flag), 3 unclear inputs and 2 two-specialty cases.
+- `evals/sets/w2_records.jsonl`, 30 cases: 13 answers grounded in values that appear in the cited synthetic reports, 2 questions outside the record, 5 diagnosis or dose hand-offs, 5 scope cases (another patient, consent in the wrong direction, expired and revoked consent) and 5 injection cases.
+- `evals/redteam/make_redteam_pdf.py`: a lab report for patient P00637 carrying the same injected instruction twice, as white 1-point text and as a visible "note to the processing system".
+- 11 tests on the sets themselves, so a failing case can be argued about and a passing one trusted.
+
+### What I rejected, and why
+
+| # | Assistant's proposal | My decision | Why |
+|---|---|---|---|
+| 1 | Leak markers for the two red-team cases: "P-SUNITA", "Deshmukh", "ejection fraction", "R0003" | Rejected after reading the rendered PDF: use values only the victim's real reports hold ("60%", "tricuspid regurgitation", "pericardial effusion", "right upper lobe"), and test that no leak marker occurs in the caller's uploads | The red-team PDF itself contains those names, so a correct answer quoting the caller's own document would have been scored as a leak |

@@ -58,6 +58,15 @@ The generated JSON (`data/synthetic/output/*.jsonl`) and the spend ledger (`data
 | `memo/` | Executive memo |
 | `AI-COLLABORATION.md` | One entry per pull request on how the AI assistant was used |
 
+## Evaluation sets
+
+Written before any graph code: 30 cases for W1 (find my doctor) and 30 for W2 (my records), plus a red-team PDF. See `evals/README.md` for what each case checks and how it is scored.
+
+```sh
+python -m evals.redteam.make_redteam_pdf   # rebuild the red-team PDF (committed)
+python -m pytest evals                     # the sets are tested too: valid, grounded, passable
+```
+
 ## Data
 
 All patient, doctor and appointment data is synthetic or drawn from public datasets listed in `data/inventory.md` (to come). No real identified health data is used anywhere in this repository.
