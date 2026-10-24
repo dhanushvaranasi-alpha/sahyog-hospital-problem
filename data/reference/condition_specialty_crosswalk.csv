@@ -1,42 +1,42 @@
 condition,display_name,specialty,alternative_specialty,emergency_condition,drafted_by,reviewed_by,reviewed_on
-(vertigo) Paroymsal  Positional Vertigo,Benign paroxysmal positional vertigo,ENT,Neurology,false,AI assistant,,
-AIDS,HIV/AIDS,Infectious Diseases,General Medicine,false,AI assistant,,
-Acne,Acne,Dermatology,,false,AI assistant,,
-Alcoholic hepatitis,Alcoholic hepatitis,Gastroenterology,General Medicine,false,AI assistant,,
-Allergy,Allergy,Allergy & Immunology,General Medicine,false,AI assistant,,
-Arthritis,Arthritis,Rheumatology,Orthopaedics,false,AI assistant,,
-Bronchial Asthma,Bronchial asthma,Pulmonology,General Medicine,false,AI assistant,,
-Cervical spondylosis,Cervical spondylosis,Orthopaedics,Physiotherapy & Rehabilitation,false,AI assistant,,
-Chicken pox,Chickenpox,General Medicine,Dermatology,false,AI assistant,,
-Chronic cholestasis,Chronic cholestasis,Gastroenterology,,false,AI assistant,,
-Common Cold,Common cold,General Medicine,ENT,false,AI assistant,,
-Dengue,Dengue,Infectious Diseases,General Medicine,false,AI assistant,,
-Diabetes,Diabetes,Endocrinology,General Medicine,false,AI assistant,,
-Dimorphic hemmorhoids(piles),Haemorrhoids (piles),General Surgery,Gastroenterology,false,AI assistant,,
-Drug Reaction,Drug reaction,General Medicine,Dermatology,false,AI assistant,,
-Fungal infection,Fungal skin infection,Dermatology,,false,AI assistant,,
-GERD,Gastro-oesophageal reflux disease,Gastroenterology,General Medicine,false,AI assistant,,
-Gastroenteritis,Gastroenteritis,General Medicine,Gastroenterology,false,AI assistant,,
-Heart attack,Heart attack,Cardiology,Emergency Medicine,true,AI assistant,,
-Hepatitis B,Hepatitis B,Gastroenterology,Infectious Diseases,false,AI assistant,,
-Hepatitis C,Hepatitis C,Gastroenterology,Infectious Diseases,false,AI assistant,,
-Hepatitis D,Hepatitis D,Gastroenterology,Infectious Diseases,false,AI assistant,,
-Hepatitis E,Hepatitis E,Gastroenterology,Infectious Diseases,false,AI assistant,,
-Hypertension,Hypertension,Cardiology,General Medicine,false,AI assistant,,
-Hyperthyroidism,Hyperthyroidism,Endocrinology,,false,AI assistant,,
-Hypoglycemia,Hypoglycaemia,Endocrinology,Emergency Medicine,false,AI assistant,,
-Hypothyroidism,Hypothyroidism,Endocrinology,,false,AI assistant,,
-Impetigo,Impetigo,Dermatology,Paediatrics,false,AI assistant,,
-Jaundice,Jaundice,Gastroenterology,General Medicine,false,AI assistant,,
-Malaria,Malaria,Infectious Diseases,General Medicine,false,AI assistant,,
-Migraine,Migraine,Neurology,,false,AI assistant,,
-Osteoarthristis,Osteoarthritis,Orthopaedics,Rheumatology,false,AI assistant,,
-Paralysis (brain hemorrhage),Paralysis (brain haemorrhage),Neurology,Neurosurgery,true,AI assistant,,
-Peptic ulcer diseae,Peptic ulcer disease,Gastroenterology,,false,AI assistant,,
-Pneumonia,Pneumonia,Pulmonology,General Medicine,false,AI assistant,,
-Psoriasis,Psoriasis,Dermatology,,false,AI assistant,,
-Tuberculosis,Tuberculosis,Pulmonology,Infectious Diseases,false,AI assistant,,
-Typhoid,Typhoid,Infectious Diseases,General Medicine,false,AI assistant,,
-Urinary tract infection,Urinary tract infection,Urology,General Medicine,false,AI assistant,,
-Varicose veins,Varicose veins,General Surgery,,false,AI assistant,,
-hepatitis A,Hepatitis A,Gastroenterology,Infectious Diseases,false,AI assistant,,
+(vertigo) Paroymsal  Positional Vertigo,Benign paroxysmal positional vertigo,ENT,Neurology,false,AI assistant,Dhanush,2026-10-24
+AIDS,HIV/AIDS,Infectious Diseases,General Medicine,false,AI assistant,Dhanush,2026-10-24
+Acne,Acne,Dermatology,,false,AI assistant,Dhanush,2026-10-24
+Alcoholic hepatitis,Alcoholic hepatitis,Gastroenterology,General Medicine,false,AI assistant,Dhanush,2026-10-24
+Allergy,Allergy,Allergy & Immunology,General Medicine,false,AI assistant,Dhanush,2026-10-24
+Arthritis,Arthritis,Rheumatology,Orthopaedics,false,AI assistant,Dhanush,2026-10-24
+Bronchial Asthma,Bronchial asthma,Pulmonology,General Medicine,false,AI assistant,Dhanush,2026-10-24
+Cervical spondylosis,Cervical spondylosis,Orthopaedics,Physiotherapy & Rehabilitation,false,AI assistant,Dhanush,2026-10-24
+Chicken pox,Chickenpox,General Medicine,Dermatology,false,AI assistant,Dhanush,2026-10-24
+Chronic cholestasis,Chronic cholestasis,Gastroenterology,,false,AI assistant,Dhanush,2026-10-24
+Common Cold,Common cold,General Medicine,ENT,false,AI assistant,Dhanush,2026-10-24
+Dengue,Dengue,Infectious Diseases,General Medicine,false,AI assistant,Dhanush,2026-10-24
+Diabetes,Diabetes,Endocrinology,General Medicine,false,AI assistant,Dhanush,2026-10-24
+Dimorphic hemmorhoids(piles),Haemorrhoids (piles),General Surgery,Gastroenterology,false,AI assistant,Dhanush,2026-10-24
+Drug Reaction,Drug reaction,General Medicine,Dermatology,false,AI assistant,Dhanush,2026-10-24
+Fungal infection,Fungal skin infection,Dermatology,,false,AI assistant,Dhanush,2026-10-24
+GERD,Gastro-oesophageal reflux disease,Gastroenterology,General Medicine,false,AI assistant,Dhanush,2026-10-24
+Gastroenteritis,Gastroenteritis,General Medicine,Gastroenterology,false,AI assistant,Dhanush,2026-10-24
+Heart attack,Heart attack,Cardiology,Emergency Medicine,true,AI assistant,Dhanush,2026-10-24
+Hepatitis B,Hepatitis B,Gastroenterology,Infectious Diseases,false,AI assistant,Dhanush,2026-10-24
+Hepatitis C,Hepatitis C,Gastroenterology,Infectious Diseases,false,AI assistant,Dhanush,2026-10-24
+Hepatitis D,Hepatitis D,Gastroenterology,Infectious Diseases,false,AI assistant,Dhanush,2026-10-24
+Hepatitis E,Hepatitis E,Gastroenterology,Infectious Diseases,false,AI assistant,Dhanush,2026-10-24
+Hypertension,Hypertension,Cardiology,General Medicine,false,AI assistant,Dhanush,2026-10-24
+Hyperthyroidism,Hyperthyroidism,Endocrinology,,false,AI assistant,Dhanush,2026-10-24
+Hypoglycemia,Hypoglycaemia,Endocrinology,Emergency Medicine,true,AI assistant,Dhanush,2026-10-24
+Hypothyroidism,Hypothyroidism,Endocrinology,,false,AI assistant,Dhanush,2026-10-24
+Impetigo,Impetigo,Dermatology,Paediatrics,false,AI assistant,Dhanush,2026-10-24
+Jaundice,Jaundice,Gastroenterology,General Medicine,false,AI assistant,Dhanush,2026-10-24
+Malaria,Malaria,Infectious Diseases,General Medicine,false,AI assistant,Dhanush,2026-10-24
+Migraine,Migraine,Neurology,,false,AI assistant,Dhanush,2026-10-24
+Osteoarthristis,Osteoarthritis,Orthopaedics,Rheumatology,false,AI assistant,Dhanush,2026-10-24
+Paralysis (brain hemorrhage),Paralysis (brain haemorrhage),Neurology,Neurosurgery,true,AI assistant,Dhanush,2026-10-24
+Peptic ulcer diseae,Peptic ulcer disease,Gastroenterology,,false,AI assistant,Dhanush,2026-10-24
+Pneumonia,Pneumonia,Pulmonology,General Medicine,false,AI assistant,Dhanush,2026-10-24
+Psoriasis,Psoriasis,Dermatology,,false,AI assistant,Dhanush,2026-10-24
+Tuberculosis,Tuberculosis,Pulmonology,Infectious Diseases,false,AI assistant,Dhanush,2026-10-24
+Typhoid,Typhoid,Infectious Diseases,General Medicine,false,AI assistant,Dhanush,2026-10-24
+Urinary tract infection,Urinary tract infection,General Medicine,Urology,false,AI assistant,Dhanush,2026-10-24
+Varicose veins,Varicose veins,General Surgery,,false,AI assistant,Dhanush,2026-10-24
+hepatitis A,Hepatitis A,Gastroenterology,Infectious Diseases,false,AI assistant,Dhanush,2026-10-24

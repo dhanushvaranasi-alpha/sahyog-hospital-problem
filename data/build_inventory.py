@@ -29,6 +29,7 @@ def licence(folder: str) -> str:
     if not meta.exists():
         return "not recorded — run `METADATA_ONLY=1 bash data/fetch_datasets.sh`"
     data = json.loads(meta.read_text())
+    data = data.get("info", data)  # `kaggle datasets metadata` nests the fields under "info"
     names = [l.get("name") or l.get("nameNullable") for l in data.get("licenses", []) if isinstance(l, dict)]
     return ", ".join(n for n in names if n) or "not stated by the publisher"
 

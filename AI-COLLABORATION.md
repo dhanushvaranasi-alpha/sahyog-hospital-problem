@@ -69,6 +69,7 @@ One entry per pull request: what the AI assistant proposed, what I rejected, and
 - `infra/db/init/002-schema.sql`: 21 tables, including a partial unique index that allows one live booking per slot, a unique idempotency key, a denormalised `patient_id` on chunks so the scope filter runs in SQL, and a trigger that makes `audit_event` append-only.
 - `data/load.py` (idempotent) and `data/build_inventory.py`; 31 tests across transforms, reference data, real data and the database.
 - Deferring the Presidio scrub of transcriptions to the egress scrubber (PR #6), since the notes are only seed text.
+- A second-pass review of its own crosswalk draft, which changed two rows: Hypoglycaemia marked as an emergency condition (severe cases are life-threatening and red-flag recall must be 100%), and urinary tract infection routed to General Medicine first with Urology as the alternative (most first episodes are treated in primary care). I then reviewed all 41 rows and approved them; the reviewer mark is mine.
 
 ### What I rejected, and why
 
@@ -77,3 +78,4 @@ One entry per pull request: what the AI assistant proposed, what I rejected, and
 | 1 | De-duplicate transcriptions on the raw text, then repair the layout | Rejected after the real-data test failed: repair first, then de-duplicate | Some copies differ only in spacing; after repair they became identical, so duplicates slipped through |
 | 2 | Keep symptom severity as produced by the merge | Rejected after the load failed on "3.0": cast to a nullable integer | The merge turned the column into floats, which Postgres refused for an integer column |
 | 3 | Treat only `None`, `NaN` and `NaT` as missing in the loader | Rejected after the load failed on `pd.NA`: map every pandas missing marker to NULL | pandas 3 uses `pd.NA` in nullable columns, which psycopg cannot adapt |
+| 4 | Read the licence from the top level of Kaggle's `dataset-metadata.json` | Rejected after the inventory showed "not stated" for all five sources: read it from the `info` block | `kaggle datasets metadata` nests the fields under `info`; the licences were CC BY-NC-SA 4.0, CC BY-SA 4.0 (×2) and CC0 (×2) |
