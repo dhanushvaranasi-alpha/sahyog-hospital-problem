@@ -1,0 +1,29 @@
+site_id,name,kind,city,parent_hospital_id
+H-PUN-01,Sahyog Hospital Shivajinagar,hospital,Pune,
+H-PUN-02,Sahyog Hospital Hadapsar,hospital,Pune,
+H-PUN-03,Sahyog Hospital Wakad,hospital,Pune,
+H-HYD-01,Sahyog Hospital Banjara Hills,hospital,Hyderabad,
+H-HYD-02,Sahyog Hospital Secunderabad,hospital,Hyderabad,
+H-HYD-03,Sahyog Hospital Gachibowli,hospital,Hyderabad,
+C-PUN-01,Sahyog Clinic Baner,clinic,Pune,H-PUN-03
+C-PUN-02,Sahyog Clinic Aundh,clinic,Pune,H-PUN-01
+C-PUN-03,Sahyog Clinic Kothrud,clinic,Pune,H-PUN-01
+C-PUN-04,Sahyog Clinic Viman Nagar,clinic,Pune,H-PUN-02
+C-PUN-05,Sahyog Clinic Kharadi,clinic,Pune,H-PUN-02
+C-PUN-06,Sahyog Clinic Hinjewadi,clinic,Pune,H-PUN-03
+C-PUN-07,Sahyog Clinic Pimpri,clinic,Pune,H-PUN-03
+C-PUN-08,Sahyog Clinic Camp,clinic,Pune,H-PUN-01
+C-PUN-09,Sahyog Clinic Swargate,clinic,Pune,H-PUN-01
+C-PUN-10,Sahyog Clinic Magarpatta,clinic,Pune,H-PUN-02
+C-PUN-11,Sahyog Clinic Katraj,clinic,Pune,H-PUN-02
+C-HYD-01,Sahyog Clinic Jubilee Hills,clinic,Hyderabad,H-HYD-01
+C-HYD-02,Sahyog Clinic Madhapur,clinic,Hyderabad,H-HYD-03
+C-HYD-03,Sahyog Clinic Kondapur,clinic,Hyderabad,H-HYD-03
+C-HYD-04,Sahyog Clinic Kukatpally,clinic,Hyderabad,H-HYD-03
+C-HYD-05,Sahyog Clinic Miyapur,clinic,Hyderabad,H-HYD-03
+C-HYD-06,Sahyog Clinic Ameerpet,clinic,Hyderabad,H-HYD-01
+C-HYD-07,Sahyog Clinic Begumpet,clinic,Hyderabad,H-HYD-02
+C-HYD-08,Sahyog Clinic Uppal,clinic,Hyderabad,H-HYD-02
+C-HYD-09,Sahyog Clinic Dilsukhnagar,clinic,Hyderabad,H-HYD-02
+C-HYD-10,Sahyog Clinic LB Nagar,clinic,Hyderabad,H-HYD-02
+C-HYD-11,Sahyog Clinic Hitech City,clinic,Hyderabad,H-HYD-03

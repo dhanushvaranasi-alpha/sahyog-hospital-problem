@@ -53,3 +53,27 @@ One entry per pull request: what the AI assistant proposed, what I rejected, and
 |---|---|---|---|
 | 1 | Pin `openai==3.37.0`, the newest release | Rejected: pinned `openai==2.54.0` | The dependency check failed: `ragas` 0.4.3 depends on `instructor`, which requires `openai` below 3. 2.54.0 is the newest 2.x and the full set resolves |
 | 2 | A `pyproject.toml` without a build-system section | Rejected: added `[build-system]` and `packages = []` | A dry-run install failed on setuptools auto-discovery because the repo has several top-level folders; the project installs dependencies only |
+
+---
+
+## PR #3 — Data estate: inventory, cleaning with tests, schema and loader
+
+**Branch:** `feat/data-estate`
+**Date:** 24 Oct 2026
+
+### What the assistant proposed
+
+- `data/fetch_datasets.sh`: one command that downloads the five Kaggle datasets and their metadata, and writes SHA-256 checksums.
+- One cleaning module per source with a tally of every dropped row and its reason, after profiling the real files against the pack's list of known problems (p19). Where the data differed from the pack, the code follows the data: prices were already numeric, a regex parses 100% of pack sizes (no LLM fallback needed), and there were no discharge-before-admission rows; it also found 4,616 duplicate rows in Disease-Symptom and 2,611 duplicate transcriptions that the pack does not mention.
+- Reference data: 28 fictional sites (6 hospitals, 22 clinics), 33 specialties derived from the data rather than the pack's figure of 38, and a 41-row condition-to-specialty crosswalk drafted by the assistant for human review.
+- `infra/db/init/002-schema.sql`: 21 tables, including a partial unique index that allows one live booking per slot, a unique idempotency key, a denormalised `patient_id` on chunks so the scope filter runs in SQL, and a trigger that makes `audit_event` append-only.
+- `data/load.py` (idempotent) and `data/build_inventory.py`; 31 tests across transforms, reference data, real data and the database.
+- Deferring the Presidio scrub of transcriptions to the egress scrubber (PR #6), since the notes are only seed text.
+
+### What I rejected, and why
+
+| # | Assistant's proposal | My decision | Why |
+|---|---|---|---|
+| 1 | De-duplicate transcriptions on the raw text, then repair the layout | Rejected after the real-data test failed: repair first, then de-duplicate | Some copies differ only in spacing; after repair they became identical, so duplicates slipped through |
+| 2 | Keep symptom severity as produced by the merge | Rejected after the load failed on "3.0": cast to a nullable integer | The merge turned the column into floats, which Postgres refused for an integer column |
+| 3 | Treat only `None`, `NaN` and `NaT` as missing in the loader | Rejected after the load failed on `pd.NA`: map every pandas missing marker to NULL | pandas 3 uses `pd.NA` in nullable columns, which psycopg cannot adapt |
