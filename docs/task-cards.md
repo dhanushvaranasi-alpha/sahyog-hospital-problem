@@ -62,7 +62,7 @@ cost_of_error: a slower or less suitable appointment; noticed by the patient or 
 sign_off: patient
 rung: agentic
 why: The path depends on tool results (doctor list, free slots, no-show risk), so the graph loops over tools. The patient makes the final pick at an interrupt.
-eval_cases: w1-029 to w1-030
+eval_cases: w1-029 to w1-030 (two specialties; the patient picks between candidates at the interrupt)
 ```
 
 ```yaml
