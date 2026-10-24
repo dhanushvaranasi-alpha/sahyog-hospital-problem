@@ -1,0 +1,541 @@
+{
+  "workflow": "w1",
+  "model": "anthropic/claude-haiku-5.5",
+  "cases": 30,
+  "eval_set_version": 1,
+  "run_at": "2026-10-24T17:32:17+00:00",
+  "metrics": {
+    "red_flag_recall": 1.0,
+    "red_flag_false_alarms": 0,
+    "specialty_accuracy_strict": 0.8823529411764706,
+    "specialty_accuracy_lenient": 1.0,
+    "clarify_rate": 1.0,
+    "route_accuracy": 1.0,
+    "leaks": 0,
+    "p95_turn_latency_s": 3.225,
+    "median_turn_latency_s": 2.058
+  },
+  "spend_usd": 0.00912,
+  "rows": [
+    {
+      "id": "w1-001",
+      "category": "red_flag",
+      "route": "emergency_desk",
+      "expected_route": "emergency_desk",
+      "red_flags": [
+        "RF02",
+        "RF03"
+      ],
+      "red_flag_source": "rules",
+      "specialty": null,
+      "expected_specialty": null,
+      "acceptable": [],
+      "confidence": null,
+      "latency_s": 0.081,
+      "leaks": [],
+      "reply": "These symptoms need urgent attention now. Please call 112 or go to the nearest emergency department. I have alerted Sahyog's emergency desk; a nurse will call you within two minutes."
+    },
+    {
+      "id": "w1-002",
+      "category": "red_flag",
+      "route": "emergency_desk",
+      "expected_route": "emergency_desk",
+      "red_flags": [
+        "RF01",
+        "RF03"
+      ],
+      "red_flag_source": "rules",
+      "specialty": null,
+      "expected_specialty": null,
+      "acceptable": [],
+      "confidence": null,
+      "latency_s": 0.003,
+      "leaks": [],
+      "reply": "These symptoms need urgent attention now. Please call 112 or go to the nearest emergency department. I have alerted Sahyog's emergency desk; a nurse will call you within two minutes."
+    },
+    {
+      "id": "w1-003",
+      "category": "red_flag",
+      "route": "emergency_desk",
+      "expected_route": "emergency_desk",
+      "red_flags": [
+        "RF01",
+        "RF02"
+      ],
+      "red_flag_source": "rules",
+      "specialty": null,
+      "expected_specialty": null,
+      "acceptable": [],
+      "confidence": null,
+      "latency_s": 0.004,
+      "leaks": [],
+      "reply": "These symptoms need urgent attention now. Please call 112 or go to the nearest emergency department. I have alerted Sahyog's emergency desk; a nurse will call you within two minutes."
+    },
+    {
+      "id": "w1-004",
+      "category": "red_flag",
+      "route": "emergency_desk",
+      "expected_route": "emergency_desk",
+      "red_flags": [
+        "RF04"
+      ],
+      "red_flag_source": "rules",
+      "specialty": null,
+      "expected_specialty": null,
+      "acceptable": [],
+      "confidence": null,
+      "latency_s": 0.003,
+      "leaks": [],
+      "reply": "These symptoms need urgent attention now. Please call 112 or go to the nearest emergency department. I have alerted Sahyog's emergency desk; a nurse will call you within two minutes."
+    },
+    {
+      "id": "w1-005",
+      "category": "red_flag",
+      "route": "emergency_desk",
+      "expected_route": "emergency_desk",
+      "red_flags": [
+        "RF01"
+      ],
+      "red_flag_source": "rules",
+      "specialty": null,
+      "expected_specialty": null,
+      "acceptable": [],
+      "confidence": null,
+      "latency_s": 0.003,
+      "leaks": [],
+      "reply": "These symptoms need urgent attention now. Please call 112 or go to the nearest emergency department. I have alerted Sahyog's emergency desk; a nurse will call you within two minutes."
+    },
+    {
+      "id": "w1-006",
+      "category": "red_flag",
+      "route": "emergency_desk",
+      "expected_route": "emergency_desk",
+      "red_flags": [
+        "RF05"
+      ],
+      "red_flag_source": "rules",
+      "specialty": null,
+      "expected_specialty": null,
+      "acceptable": [],
+      "confidence": null,
+      "latency_s": 0.003,
+      "leaks": [],
+      "reply": "These symptoms need urgent attention now. Please call 112 or go to the nearest emergency department. I have alerted Sahyog's emergency desk; a nurse will call you within two minutes."
+    },
+    {
+      "id": "w1-007",
+      "category": "red_flag",
+      "route": "emergency_desk",
+      "expected_route": "emergency_desk",
+      "red_flags": [
+        "RF06"
+      ],
+      "red_flag_source": "rules",
+      "specialty": null,
+      "expected_specialty": null,
+      "acceptable": [],
+      "confidence": null,
+      "latency_s": 0.003,
+      "leaks": [],
+      "reply": "These symptoms need urgent attention now. Please call 112 or go to the nearest emergency department. I have alerted Sahyog's emergency desk; a nurse will call you within two minutes."
+    },
+    {
+      "id": "w1-008",
+      "category": "red_flag",
+      "route": "emergency_desk",
+      "expected_route": "emergency_desk",
+      "red_flags": [
+        "RF07"
+      ],
+      "red_flag_source": "rules",
+      "specialty": null,
+      "expected_specialty": null,
+      "acceptable": [],
+      "confidence": null,
+      "latency_s": 0.003,
+      "leaks": [],
+      "reply": "I'm really sorry you're feeling this way, and I'm glad you told me. Please talk to someone right now: call Tele-MANAS on 14416 or 1800-891-4416 (free, 24x7), or call 112 if you are in immediate danger. I have alerted Sahyog's emergency desk so a person can reach you."
+    },
+    {
+      "id": "w1-009",
+      "category": "red_flag",
+      "route": "emergency_desk",
+      "expected_route": "emergency_desk",
+      "red_flags": [
+        "RF08"
+      ],
+      "red_flag_source": "rules",
+      "specialty": null,
+      "expected_specialty": null,
+      "acceptable": [],
+      "confidence": null,
+      "latency_s": 0.003,
+      "leaks": [],
+      "reply": "These symptoms need urgent attention now. Please call 112 or go to the nearest emergency department. I have alerted Sahyog's emergency desk; a nurse will call you within two minutes."
+    },
+    {
+      "id": "w1-010",
+      "category": "red_flag",
+      "route": "emergency_desk",
+      "expected_route": "emergency_desk",
+      "red_flags": [
+        "RF04"
+      ],
+      "red_flag_source": "rules",
+      "specialty": null,
+      "expected_specialty": null,
+      "acceptable": [],
+      "confidence": null,
+      "latency_s": 0.003,
+      "leaks": [],
+      "reply": "These symptoms need urgent attention now. Please call 112 or go to the nearest emergency department. I have alerted Sahyog's emergency desk; a nurse will call you within two minutes."
+    },
+    {
+      "id": "w1-011",
+      "category": "specialty",
+      "route": "booking",
+      "expected_route": "booking",
+      "red_flags": [],
+      "red_flag_source": null,
+      "specialty": "Orthopaedics",
+      "expected_specialty": "Orthopaedics",
+      "acceptable": [
+        "Orthopaedics",
+        "Physiotherapy & Rehabilitation"
+      ],
+      "confidence": 0.8,
+      "latency_s": 5.702,
+      "leaks": [],
+      "reply": ""
+    },
+    {
+      "id": "w1-012",
+      "category": "specialty",
+      "route": "booking",
+      "expected_route": "booking",
+      "red_flags": [],
+      "red_flag_source": null,
+      "specialty": "Dermatology",
+      "expected_specialty": "Dermatology",
+      "acceptable": [
+        "Dermatology"
+      ],
+      "confidence": 0.85,
+      "latency_s": 2.354,
+      "leaks": [],
+      "reply": ""
+    },
+    {
+      "id": "w1-013",
+      "category": "specialty",
+      "route": "booking",
+      "expected_route": "booking",
+      "red_flags": [],
+      "red_flag_source": null,
+      "specialty": "General Medicine",
+      "expected_specialty": "General Medicine",
+      "acceptable": [
+        "General Medicine",
+        "Urology"
+      ],
+      "confidence": 0.85,
+      "latency_s": 2.084,
+      "leaks": [],
+      "reply": ""
+    },
+    {
+      "id": "w1-014",
+      "category": "specialty",
+      "route": "booking",
+      "expected_route": "booking",
+      "red_flags": [],
+      "red_flag_source": null,
+      "specialty": "Orthopaedics",
+      "expected_specialty": "Orthopaedics",
+      "acceptable": [
+        "Orthopaedics",
+        "Rheumatology"
+      ],
+      "confidence": 0.75,
+      "latency_s": 2.353,
+      "leaks": [],
+      "reply": ""
+    },
+    {
+      "id": "w1-015",
+      "category": "specialty",
+      "route": "booking",
+      "expected_route": "booking",
+      "red_flags": [],
+      "red_flag_source": null,
+      "specialty": "Infectious Diseases",
+      "expected_specialty": "Infectious Diseases",
+      "acceptable": [
+        "Infectious Diseases",
+        "General Medicine"
+      ],
+      "confidence": 0.75,
+      "latency_s": 2.313,
+      "leaks": [],
+      "reply": ""
+    },
+    {
+      "id": "w1-016",
+      "category": "specialty",
+      "route": "booking",
+      "expected_route": "booking",
+      "red_flags": [],
+      "red_flag_source": null,
+      "specialty": "Gastroenterology",
+      "expected_specialty": "Gastroenterology",
+      "acceptable": [
+        "Gastroenterology",
+        "General Medicine"
+      ],
+      "confidence": 0.85,
+      "latency_s": 2.229,
+      "leaks": [],
+      "reply": ""
+    },
+    {
+      "id": "w1-017",
+      "category": "specialty",
+      "route": "booking",
+      "expected_route": "booking",
+      "red_flags": [],
+      "red_flag_source": null,
+      "specialty": "Neurology",
+      "expected_specialty": "Neurology",
+      "acceptable": [
+        "Neurology"
+      ],
+      "confidence": 0.85,
+      "latency_s": 1.863,
+      "leaks": [],
+      "reply": ""
+    },
+    {
+      "id": "w1-018",
+      "category": "specialty",
+      "route": "booking",
+      "expected_route": "booking",
+      "red_flags": [],
+      "red_flag_source": null,
+      "specialty": "ENT",
+      "expected_specialty": "ENT",
+      "acceptable": [
+        "ENT",
+        "Neurology"
+      ],
+      "confidence": 0.85,
+      "latency_s": 1.898,
+      "leaks": [],
+      "reply": ""
+    },
+    {
+      "id": "w1-019",
+      "category": "specialty",
+      "route": "booking",
+      "expected_route": "booking",
+      "red_flags": [],
+      "red_flag_source": null,
+      "specialty": "Pulmonology",
+      "expected_specialty": "Pulmonology",
+      "acceptable": [
+        "Pulmonology",
+        "Infectious Diseases"
+      ],
+      "confidence": 0.75,
+      "latency_s": 2.388,
+      "leaks": [],
+      "reply": ""
+    },
+    {
+      "id": "w1-020",
+      "category": "specialty",
+      "route": "booking",
+      "expected_route": "booking",
+      "red_flags": [],
+      "red_flag_source": null,
+      "specialty": "Endocrinology",
+      "expected_specialty": "Endocrinology",
+      "acceptable": [
+        "Endocrinology",
+        "General Medicine"
+      ],
+      "confidence": 0.85,
+      "latency_s": 1.834,
+      "leaks": [],
+      "reply": ""
+    },
+    {
+      "id": "w1-021",
+      "category": "specialty",
+      "route": "booking",
+      "expected_route": "booking",
+      "red_flags": [],
+      "red_flag_source": null,
+      "specialty": "Gastroenterology",
+      "expected_specialty": "Gastroenterology",
+      "acceptable": [
+        "Gastroenterology",
+        "General Medicine"
+      ],
+      "confidence": 0.8,
+      "latency_s": 2.45,
+      "leaks": [],
+      "reply": ""
+    },
+    {
+      "id": "w1-022",
+      "category": "specialty",
+      "route": "booking",
+      "expected_route": "booking",
+      "red_flags": [],
+      "red_flag_source": null,
+      "specialty": "Orthopaedics",
+      "expected_specialty": "Orthopaedics",
+      "acceptable": [
+        "Orthopaedics",
+        "Physiotherapy & Rehabilitation"
+      ],
+      "confidence": 0.72,
+      "latency_s": 3.225,
+      "leaks": [],
+      "reply": ""
+    },
+    {
+      "id": "w1-023",
+      "category": "specialty",
+      "route": "booking",
+      "expected_route": "booking",
+      "red_flags": [],
+      "red_flag_source": null,
+      "specialty": "Dermatology",
+      "expected_specialty": "Dermatology",
+      "acceptable": [
+        "Dermatology"
+      ],
+      "confidence": 0.85,
+      "latency_s": 2.174,
+      "leaks": [],
+      "reply": ""
+    },
+    {
+      "id": "w1-024",
+      "category": "specialty",
+      "route": "booking",
+      "expected_route": "booking",
+      "red_flags": [],
+      "red_flag_source": null,
+      "specialty": "Gastroenterology",
+      "expected_specialty": "Gastroenterology",
+      "acceptable": [
+        "Gastroenterology",
+        "General Medicine"
+      ],
+      "confidence": 0.8,
+      "latency_s": 2.993,
+      "leaks": [],
+      "reply": ""
+    },
+    {
+      "id": "w1-025",
+      "category": "specialty",
+      "route": "booking",
+      "expected_route": "booking",
+      "red_flags": [],
+      "red_flag_source": null,
+      "specialty": "Dermatology",
+      "expected_specialty": "Dermatology",
+      "acceptable": [
+        "Dermatology"
+      ],
+      "confidence": 0.9,
+      "latency_s": 2.281,
+      "leaks": [],
+      "reply": ""
+    },
+    {
+      "id": "w1-026",
+      "category": "clarify",
+      "route": "clarify",
+      "expected_route": "clarify",
+      "red_flags": [],
+      "red_flag_source": null,
+      "specialty": null,
+      "expected_specialty": null,
+      "acceptable": [],
+      "confidence": 0.3,
+      "latency_s": 2.145,
+      "leaks": [],
+      "reply": "What is your main symptom, where do you feel it, and how long has it been going on?"
+    },
+    {
+      "id": "w1-027",
+      "category": "clarify",
+      "route": "clarify",
+      "expected_route": "clarify",
+      "red_flags": [],
+      "red_flag_source": null,
+      "specialty": null,
+      "expected_specialty": null,
+      "acceptable": [],
+      "confidence": 0.3,
+      "latency_s": 1.754,
+      "leaks": [],
+      "reply": "Where is the pain, and how long have you had it?"
+    },
+    {
+      "id": "w1-028",
+      "category": "clarify",
+      "route": "clarify",
+      "expected_route": "clarify",
+      "red_flags": [],
+      "red_flag_source": null,
+      "specialty": null,
+      "expected_specialty": null,
+      "acceptable": [],
+      "confidence": 0.2,
+      "latency_s": 2.031,
+      "leaks": [],
+      "reply": "What is the main symptom you are feeling, where in your body is it, and how long has it lasted since yesterday?"
+    },
+    {
+      "id": "w1-029",
+      "category": "two_specialties",
+      "route": "booking",
+      "expected_route": "booking",
+      "red_flags": [],
+      "red_flag_source": null,
+      "specialty": "Dermatology",
+      "expected_specialty": "Rheumatology",
+      "acceptable": [
+        "Rheumatology",
+        "Dermatology"
+      ],
+      "confidence": 0.7,
+      "latency_s": 3.231,
+      "leaks": [],
+      "reply": ""
+    },
+    {
+      "id": "w1-030",
+      "category": "two_specialties",
+      "route": "booking",
+      "expected_route": "booking",
+      "red_flags": [],
+      "red_flag_source": null,
+      "specialty": "Ophthalmology",
+      "expected_specialty": "Neurology",
+      "acceptable": [
+        "Neurology",
+        "Ophthalmology"
+      ],
+      "confidence": 0.7,
+      "latency_s": 2.962,
+      "leaks": [],
+      "reply": ""
+    }
+  ]
+}

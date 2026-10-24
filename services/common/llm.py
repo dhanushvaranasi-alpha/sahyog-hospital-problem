@@ -78,6 +78,29 @@ def _record(entry: dict) -> None:
         f.write(json.dumps(entry) + "\n")
 
 
+def strict_json_schema(schema: dict) -> dict:
+    """OpenAI-family providers require every object to list ALL its properties as required and to forbid
+    extra properties. Optional fields stay optional by allowing null; pydantic still validates the reply."""
+    import copy
+
+    def fix(node):
+        if isinstance(node, dict):
+            if node.get("type") == "object" or "properties" in node:
+                props = node.get("properties", {})
+                node["required"] = list(props)
+                node["additionalProperties"] = False
+                for v in props.values():
+                    v.pop("default", None)
+            for v in node.values():
+                fix(v)
+        elif isinstance(node, list):
+            for v in node:
+                fix(v)
+        return node
+
+    return fix(copy.deepcopy(schema))
+
+
 class ModelClient:
     def __init__(self, primary: str | None = None, fallback: str | None = None, timeout_s: float = 60.0,
                  budget_usd: float | None = None):
@@ -108,7 +131,8 @@ class ModelClient:
                         model=model,
                         messages=[{"role": "system", "content": system}, {"role": "user", "content": user}],
                         response_format={"type": "json_schema",
-                                         "json_schema": {"name": schema.__name__, "schema": schema.model_json_schema()}},
+                                         "json_schema": {"name": schema.__name__,
+                                                                         "schema": strict_json_schema(schema.model_json_schema())}},
                         max_tokens=max_tokens,
                         temperature=temperature,
                         extra_headers={"X-Title": "sahyog-care-companion"},
