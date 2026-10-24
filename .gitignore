@@ -14,6 +14,7 @@ venv/
 
 # Data: raw downloads and generated binaries stay out of git
 data/raw/
+data/processed/
 data/synthetic/output/
 data/synthetic/pdfs/
 *.pdf
@@ -27,3 +28,6 @@ models/
 .DS_Store
 .vscode/
 .idea/
+
+# Build artefacts from `pip install -e .`
+*.egg-info/

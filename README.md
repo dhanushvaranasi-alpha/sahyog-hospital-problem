@@ -17,6 +17,16 @@ pip install -e ".[dev]"
 
 Services, the worker and the graphs join the compose file as they are built.
 
+## Data estate
+
+```sh
+bash data/fetch_datasets.sh        # needs a Kaggle token in ~/.kaggle/access_token; writes data/raw/ (git-ignored)
+python -m data.transforms.run      # clean each source -> data/processed/ with a tally of every dropped row
+python -m data.load                # schema + reference data + cleaned history -> Postgres
+python -m data.build_inventory     # regenerate data/inventory.md
+pytest                             # transform, reference, real-data and database tests
+```
+
 ## Repository map
 
 | Path | What it is |
@@ -28,7 +38,7 @@ Services, the worker and the graphs join the compose file as they are built.
 | `docs/discovery-questions.md` | D2 discovery questions and the decision each unlocks |
 | `docs/assumptions.md` | D3 assumptions register: owner, validation, fallback |
 | `docs/data-contracts/` | D4 data contracts (to come) |
-| `data/` | Inventory, transforms with tests, synthetic-data prompts |
+| `data/` | Download script, transforms with tests, reference data, loader, inventory |
 | `services/` | agent (LangGraph graphs), scheduling, records, scribe |
 | `evals/` | Eval sets, runs and the report |
 | `infra/` | docker-compose and database init |

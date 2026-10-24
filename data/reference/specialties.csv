@@ -1,0 +1,34 @@
+specialty_id,name
+SP01,General Medicine
+SP02,General Surgery
+SP03,Cardiology
+SP04,Pulmonology
+SP05,Orthopaedics
+SP06,Radiology
+SP07,Gastroenterology
+SP08,Neurology
+SP09,Obstetrics & Gynaecology
+SP10,Urology
+SP11,ENT
+SP12,Neurosurgery
+SP13,Haematology & Oncology
+SP14,Ophthalmology
+SP15,Nephrology
+SP16,Emergency Medicine
+SP17,Paediatrics
+SP18,Pain Management
+SP19,Psychiatry
+SP20,Dermatology
+SP21,Dentistry
+SP22,Plastic Surgery
+SP23,Physiotherapy & Rehabilitation
+SP24,Sleep Medicine
+SP25,Endocrinology
+SP26,Bariatric Surgery
+SP27,Rheumatology
+SP28,Dietetics & Nutrition
+SP29,Speech & Language Therapy
+SP30,Pathology
+SP31,Allergy & Immunology
+SP32,Palliative Care
+SP33,Infectious Diseases

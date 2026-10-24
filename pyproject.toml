@@ -24,12 +24,17 @@ dependencies = [
   "pypdf==6.21.2",
   "ragas==0.4.3",
   "python-dotenv==1.2.4",
+  # Data estate (PR #3). Newest releases older than the 22 Oct 2026 drops; set re-resolved on 3.12.
+  "pandas==3.0.6",
+  "pyarrow==26.0.0",
+  "kaggle==2.2.4",
 ]
 
 [project.optional-dependencies]
 dev = ["pytest==9.1.1"]
 
 [tool.pytest.ini_options]
+pythonpath = ["."]
 testpaths = ["data/transforms/tests", "services", "evals"]
 
 [build-system]
