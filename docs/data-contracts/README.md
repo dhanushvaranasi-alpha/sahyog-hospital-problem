@@ -38,4 +38,4 @@ The sensitivity class decides what may cross the hospital boundary (pack p21).
 
 ## Compliance sign-off of the class column
 
-Signed off by: _pending_ · Date: _pending_
+Signed off by: Dhanush (compliance officer, in role) · Date: 2026-10-24
