@@ -115,6 +115,13 @@ class ModelClient:
             except ImportError:
                 pass
         self._client = client
+        # Load prices at start-up so the first patient's turn does not pay for the price-list fetch.
+        for m in (self.primary, self.fallback):
+            if m:
+                try:
+                    price_for(m)
+                except Exception:
+                    pass   # fetched again on first use; a model we cannot price is still refused there
 
     def structured(self, *, purpose: str, system: str, user: str, schema: Type[T], max_tokens: int = 2000,
                    temperature: float = 0.7, attempts_per_model: int = 2) -> T:
