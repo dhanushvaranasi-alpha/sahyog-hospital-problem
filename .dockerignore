@@ -1,0 +1,11 @@
+.env
+.env.*
+.venv/
+**/__pycache__/
+data/raw/
+data/processed/
+data/cache/
+data/uploads/
+data/synthetic/output/pdfs/
+*.egg-info/
+.git/

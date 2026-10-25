@@ -1,4 +1,5 @@
 """PostgresRecordStore against a real database: ingest, patient-filtered search, tokens, consent, audit."""
+import hashlib
 import os
 
 import psycopg
@@ -34,16 +35,27 @@ class Emb1024(HashEmbedder):
         super().__init__(1024)
 
 
+def _clean(conn):
+    # the same PDF may also have arrived through the upload endpoint: match on content, not path.
+    # Documents cascade to chunks and tokens; audit rows are append-only by design.
+    digest = hashlib.sha256(REDTEAM.read_bytes()).hexdigest()
+    with conn.cursor() as cur:
+        cur.execute("UPDATE ingest_job SET doc_id = NULL WHERE doc_id IN "
+                    "(SELECT doc_id FROM document WHERE patient_id = 'P00637' AND content_hash = %s)", (digest,))
+        cur.execute("DELETE FROM document WHERE patient_id = 'P00637' AND content_hash = %s", (digest,))
+        cur.execute("DELETE FROM consent WHERE purpose = 'test-fixture'")
+    conn.commit()
+
+
 @pytest.fixture
 def pg():
     conn = psycopg.connect(URL)
+    _clean(conn)
     store = PostgresRecordStore(conn)
     yield store, conn
     conn.rollback()
-    with conn.cursor() as cur:   # documents and their chunks/tokens cascade; audit rows are append-only by design
-        cur.execute("DELETE FROM document WHERE uri = %s", (str(REDTEAM),))
-        cur.execute("DELETE FROM consent WHERE purpose = 'test-fixture'")
-    conn.commit(); conn.close()
+    _clean(conn)
+    conn.close()
 
 
 def test_ingest_search_and_tokens(pg):

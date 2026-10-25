@@ -10,6 +10,7 @@ sensitivity: operational
 checks:
   - status in (queued, running, done, failed)
   - no job running longer than 10 minutes
+  - patient_id set from the uploader's token; status shown only to that patient
 consumers:
   - Upload status endpoint
   - Operations dashboard

@@ -41,4 +41,4 @@ The sensitivity class decides what may cross the hospital boundary (pack p21).
 
 Signed off by: Dhanush (compliance officer, in role) · Date: 2026-10-24
 
-Added after that sign-off and awaiting review: `doc_phi_token`.
+`doc_phi_token` (added in PR #7) reviewed and approved by: Dhanush (compliance officer, in role) · Date: 2026-10-25

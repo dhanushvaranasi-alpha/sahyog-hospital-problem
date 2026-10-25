@@ -1,6 +1,8 @@
-# One command starts the data tier:  docker compose -f infra/docker-compose.yml up -d
+# One command starts the stack:  docker compose -f infra/docker-compose.yml up -d --build
+#   postgres + pgvector, redis, the API on :8000 and the ingest worker.
 # Image tags checked on 24 Oct 2026 against the pgvector README and Docker's
-# official-images list for redis. Services join this file as they are built.
+# official-images list for redis. The api and worker share one image (../Dockerfile).
+# data/ is mounted, so processed data, the synthetic PDFs, the embedding cache and uploads are shared with the host.
 name: sahyog
 
 services:
@@ -31,5 +33,32 @@ services:
       timeout: 3s
       retries: 20
 
+  api:
+    build: { context: .., dockerfile: Dockerfile }
+    env_file: ../.env
+    environment: &app_env
+      DATABASE_URL: postgresql://${POSTGRES_USER:-sahyog}:${POSTGRES_PASSWORD:-change-me-locally}@postgres:5432/${POSTGRES_DB:-sahyog}
+      REDIS_URL: redis://redis:6379/0
+      UPLOAD_DIR: /app/data/uploads
+    ports:
+      - "8000:8000"
+    volumes: &app_volumes
+      - ../data:/app/data
+      - models:/models
+    depends_on:
+      postgres: { condition: service_healthy }
+      redis: { condition: service_healthy }
+
+  worker:
+    build: { context: .., dockerfile: Dockerfile }
+    command: ["rq", "worker", "ingest", "--url", "redis://redis:6379/0"]
+    env_file: ../.env
+    environment: *app_env
+    volumes: *app_volumes
+    depends_on:
+      postgres: { condition: service_healthy }
+      redis: { condition: service_healthy }
+
 volumes:
   pgdata:
+  models:     # BGE-M3 (about 2.3 GB) downloads here on first use and stays

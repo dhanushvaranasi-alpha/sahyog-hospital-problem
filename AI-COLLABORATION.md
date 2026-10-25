@@ -182,3 +182,24 @@ Actual LLM spend for this PR: US$0.265 against the US$0.13 estimate. The differe
 | 2 | Presidio's default name detection on report text (architecture decision 9) | Rejected: names detected only in typed questions, and only capitalised spans (ADR 0006) | On the 100 report bodies it flagged 55 distinct "names" and none was a person (Mobitz, Xylocaine, Transthoracic); on Hindi-English questions it flagged ordinary words such as "kitna insulin lena chahiye" |
 | 3 | A "grade context, retrieve again once" loop in the Ask graph (architecture v0.1) | Rejected: one retrieval, then a verify step that rejects unsupported answers | Retrieval put the expected report in the top 8 for 13 of 13 answerable cases, so the loop would add a model call with no measured gain |
 | 4 | The pgvector HNSW index for record search | Rejected: exact ranking within the patient's rows | HNSW applies the patient filter after its approximate scan and can return too few rows; one patient has tens of chunks, so exact ranking is both correct and fast |
+
+---
+
+## PR #8 — API gateway
+
+**Branch:** `feat/api-gateway`
+**Date:** 25 Oct 2026
+
+### What the assistant proposed
+
+- `services/api/auth.py`: the signed-token stub (HMAC-SHA256 over role, user id, patient id and expiry) and a command to mint development tokens.
+- `services/api/app.py`: one router per workflow. W1 start and reply, W2 questions, PDF upload returning a job id, upload status, health. Patient identity is taken only from the token; request bodies reject unknown fields, so a body cannot carry a `patient_id`.
+- Ownership checks: a W1 session resumes only for the patient who started it, and an upload's status is shown only to its uploader (new `ingest_job.patient_id`, schema 004). Both answer 404 rather than 403, so ids cannot be probed.
+- `services/api/ratelimit.py`: per-caller limits in Redis (30 a minute for questions, 10 for uploads) with `Retry-After`.
+- `services/api/deps.py`: Postgres pool, Postgres checkpointer, Redis, model client and embedder behind one object, so the 11 API tests run in memory.
+- A Dockerfile and `api` and `worker` services in the compose file, so one command starts the stack.
+- The `doc_phi_token` contract marked as reviewed (25 Oct 2026), and a records test made independent of whether the red-team PDF also arrived through the upload endpoint.
+
+### What I rejected, and why
+
+None in this pull request.
