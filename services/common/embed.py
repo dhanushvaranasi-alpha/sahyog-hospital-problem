@@ -62,6 +62,16 @@ class CachedEmbedder:
                 np.save(self.cache_dir / f"{_key(self.name, texts[i])}.npy", v.astype(np.float32))
         return out
 
+    def forget(self, texts: list[str]) -> int:
+        """Remove cached vectors for these texts (erasure: no derived copy outlives the document)."""
+        n = 0
+        for t in texts:
+            p = self.cache_dir / f"{_key(self.name, t)}.npy"
+            if p.exists():
+                p.unlink()
+                n += 1
+        return n
+
 
 class BgeM3Onnx:
     """BGE-M3 dense embeddings via ONNX Runtime on CPU. First use downloads about 2.3 GB to the HF cache."""

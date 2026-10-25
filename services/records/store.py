@@ -75,6 +75,12 @@ class RecordStore(Protocol):
     def tokens(self, doc_ids: list[str]) -> dict[str, dict[str, tuple[str, str]]]: ...
     def audit(self, *, actor_id: str, actor_role: str, purpose: str, action: str, resource_type: str,
               resource_id: str, trace_id: str | None = None) -> int: ...
+    # DPDP change request (CR-001): erasure and consent withdrawal
+    def document(self, doc_id: str) -> DocumentRow | None: ...
+    def chunk_texts(self, doc_id: str) -> list[str]: ...
+    def delete_document(self, doc_id: str) -> bool: ...
+    def grant_consent(self, subject_id: str, grantee_id: str, days: int, purpose: str) -> str: ...
+    def revoke_consent(self, subject_id: str, grantee_id: str) -> int: ...
 
 
 def _grant_from(rows: list[tuple[str, str, datetime, datetime | None]], at: datetime) -> Grant:
@@ -162,6 +168,35 @@ class InMemoryRecordStore:
 
     def tokens(self, doc_ids: list[str]) -> dict[str, dict[str, tuple[str, str]]]:
         return {d: self._tokens.get(d, {}) for d in doc_ids}
+
+    def document(self, doc_id: str) -> DocumentRow | None:
+        return self._docs.get(doc_id)
+
+    def chunk_texts(self, doc_id: str) -> list[str]:
+        return [c.text for c in self._chunks if c.doc_id == doc_id]
+
+    def delete_document(self, doc_id: str) -> bool:
+        if doc_id not in self._docs:
+            return False
+        del self._docs[doc_id]
+        self._chunks = [c for c in self._chunks if c.doc_id != doc_id]
+        self._tokens.pop(doc_id, None)
+        return True
+
+    def grant_consent(self, subject_id: str, grantee_id: str, days: int, purpose: str) -> str:
+        from datetime import timedelta
+        cid = str(uuid.uuid4())
+        self._consents.append({"consent_id": cid, "patient_id": subject_id, "grantee_id": grantee_id, "purpose": purpose,
+                               "expires_at": datetime.now(timezone.utc) + timedelta(days=days), "revoked_at": None})
+        return cid
+
+    def revoke_consent(self, subject_id: str, grantee_id: str) -> int:
+        n = 0
+        for c in self._consents:
+            if c["patient_id"] == subject_id and c["grantee_id"] == grantee_id and c["revoked_at"] is None:
+                c["revoked_at"] = datetime.now(timezone.utc)
+                n += 1
+        return n
 
     def audit(self, *, actor_id: str, actor_role: str, purpose: str, action: str, resource_type: str,
               resource_id: str, trace_id: str | None = None) -> int:
@@ -259,6 +294,44 @@ class PostgresRecordStore:
             for d, tok, ent, val in cur.fetchall():
                 out[str(d)][tok] = (ent, val)
         return out
+
+    def document(self, doc_id: str) -> DocumentRow | None:
+        with self.conn.cursor() as cur:
+            cur.execute("SELECT doc_id, patient_id, type, uri, source_ref, report_date::text, coalesce(title, ''), "
+                        "content_hash, injection_removed, phi_status FROM document WHERE doc_id = %s::uuid", (doc_id,))
+            r = cur.fetchone()
+        return DocumentRow(str(r[0]), *r[1:]) if r else None
+
+    def chunk_texts(self, doc_id: str) -> list[str]:
+        with self.conn.cursor() as cur:
+            cur.execute("SELECT text FROM doc_chunk WHERE doc_id = %s::uuid", (doc_id,))
+            return [r[0] for r in cur.fetchall()]
+
+    def delete_document(self, doc_id: str) -> bool:
+        # chunks and the token map cascade; the ingest job keeps its history without the link
+        with self.conn.cursor() as cur:
+            cur.execute("UPDATE ingest_job SET doc_id = NULL WHERE doc_id = %s::uuid", (doc_id,))
+            cur.execute("DELETE FROM document WHERE doc_id = %s::uuid", (doc_id,))
+            n = cur.rowcount
+        self.conn.commit()
+        return n == 1
+
+    def grant_consent(self, subject_id: str, grantee_id: str, days: int, purpose: str) -> str:
+        with self.conn.cursor() as cur:
+            cur.execute("INSERT INTO consent (patient_id, grantee_id, scope, purpose, expires_at) "
+                        "VALUES (%s, %s, 'records:read', %s, now() + make_interval(days => %s)) RETURNING consent_id",
+                        (subject_id, grantee_id, purpose, days))
+            cid = str(cur.fetchone()[0])
+        self.conn.commit()
+        return cid
+
+    def revoke_consent(self, subject_id: str, grantee_id: str) -> int:
+        with self.conn.cursor() as cur:
+            cur.execute("UPDATE consent SET revoked_at = now() WHERE patient_id = %s AND grantee_id = %s "
+                        "AND revoked_at IS NULL", (subject_id, grantee_id))
+            n = cur.rowcount
+        self.conn.commit()
+        return n
 
     def audit(self, *, actor_id: str, actor_role: str, purpose: str, action: str, resource_type: str,
               resource_id: str, trace_id: str | None = None) -> int:
