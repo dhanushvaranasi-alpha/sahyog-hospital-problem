@@ -1,0 +1,175 @@
+{
+  "workflow": "w1_sessions",
+  "model": "anthropic/claude-haiku-5.5",
+  "sessions": 20,
+  "run_at": "2026-10-25T09:19:50+00:00",
+  "metrics": {
+    "completed_without_call": 1.0,
+    "median_system_time_to_book_s": 2.687,
+    "max_system_time_to_book_s": 5.247,
+    "median_turns": 2.0
+  },
+  "spend_usd": 0.01063,
+  "rows": [
+    {
+      "id": "w1-011",
+      "route": "booked",
+      "booked": true,
+      "specialty": "Orthopaedics",
+      "turns": 2,
+      "system_s": 3.787
+    },
+    {
+      "id": "w1-012",
+      "route": "booked",
+      "booked": true,
+      "specialty": "Dermatology",
+      "turns": 2,
+      "system_s": 2.89
+    },
+    {
+      "id": "w1-013",
+      "route": "booked",
+      "booked": true,
+      "specialty": "General Medicine",
+      "turns": 2,
+      "system_s": 2.287
+    },
+    {
+      "id": "w1-014",
+      "route": "booked",
+      "booked": true,
+      "specialty": "Orthopaedics",
+      "turns": 2,
+      "system_s": 2.482
+    },
+    {
+      "id": "w1-015",
+      "route": "booked",
+      "booked": true,
+      "specialty": "Infectious Diseases",
+      "turns": 2,
+      "system_s": 2.375
+    },
+    {
+      "id": "w1-016",
+      "route": "booked",
+      "booked": true,
+      "specialty": "Gastroenterology",
+      "turns": 2,
+      "system_s": 2.786
+    },
+    {
+      "id": "w1-017",
+      "route": "booked",
+      "booked": true,
+      "specialty": "Neurology",
+      "turns": 2,
+      "system_s": 3.461
+    },
+    {
+      "id": "w1-018",
+      "route": "booked",
+      "booked": true,
+      "specialty": "ENT",
+      "turns": 2,
+      "system_s": 2.421
+    },
+    {
+      "id": "w1-019",
+      "route": "booked",
+      "booked": true,
+      "specialty": "Pulmonology",
+      "turns": 2,
+      "system_s": 2.131
+    },
+    {
+      "id": "w1-020",
+      "route": "booked",
+      "booked": true,
+      "specialty": "Endocrinology",
+      "turns": 2,
+      "system_s": 2.76
+    },
+    {
+      "id": "w1-021",
+      "route": "booked",
+      "booked": true,
+      "specialty": "Gastroenterology",
+      "turns": 2,
+      "system_s": 2.411
+    },
+    {
+      "id": "w1-022",
+      "route": "booked",
+      "booked": true,
+      "specialty": "Orthopaedics",
+      "turns": 2,
+      "system_s": 2.614
+    },
+    {
+      "id": "w1-023",
+      "route": "booked",
+      "booked": true,
+      "specialty": "Dermatology",
+      "turns": 2,
+      "system_s": 2.387
+    },
+    {
+      "id": "w1-024",
+      "route": "booked",
+      "booked": true,
+      "specialty": "Gastroenterology",
+      "turns": 2,
+      "system_s": 2.878
+    },
+    {
+      "id": "w1-025",
+      "route": "booked",
+      "booked": true,
+      "specialty": "Dermatology",
+      "turns": 2,
+      "system_s": 1.941
+    },
+    {
+      "id": "w1-026",
+      "route": "booked",
+      "booked": true,
+      "specialty": "General Medicine",
+      "turns": 3,
+      "system_s": 3.999
+    },
+    {
+      "id": "w1-027",
+      "route": "booked",
+      "booked": true,
+      "specialty": "Orthopaedics",
+      "turns": 3,
+      "system_s": 5.247
+    },
+    {
+      "id": "w1-028",
+      "route": "booked",
+      "booked": true,
+      "specialty": "General Medicine",
+      "turns": 3,
+      "system_s": 4.306
+    },
+    {
+      "id": "w1-029",
+      "route": "booked",
+      "booked": true,
+      "specialty": "Dermatology",
+      "turns": 2,
+      "system_s": 2.514
+    },
+    {
+      "id": "w1-030",
+      "route": "booked",
+      "booked": true,
+      "specialty": "Ophthalmology",
+      "turns": 2,
+      "system_s": 3.706
+    }
+  ]
+}

@@ -1,6 +1,6 @@
-# Architecture v0.1: Sahyog Care Companion (Core tier)
+# Architecture v1.0: Sahyog Care Companion (Core tier)
 
-Status: **Confirmed 24 Oct 2026**, except decision 6, which is settled by measurement (see the decision). Each row in section 4 becomes an ADR under `docs/adr/`.
+Status: **v1.0, as built, 25 Oct 2026.** Confirmed 24 Oct 2026 and corrected as the build taught us; each correction has an ADR under `docs/adr/` (0004 to 0008). Sequence diagrams: [W1 booking](diagrams/w1-booking-sequence.md), [W2 ask](diagrams/w2-ask-sequence.md). Results: [`evals/report.md`](../evals/report.md); cost: [`docs/cost-sheet.md`](cost-sheet.md).
 
 This corrects the pack's target architecture (p23–p31) for a solo, Core-tier build on a laptop with an LLM budget of US$4. Where the build differs from the target, the difference and the reason are recorded in section 5.
 

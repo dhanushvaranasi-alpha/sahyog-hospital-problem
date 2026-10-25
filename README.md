@@ -2,7 +2,7 @@
 
 An agentic patient and doctor assistant for Sahyog Health Network (a fictional client from the FDE Academy engagement pack), built on LangGraph, Postgres + pgvector and FastAPI.
 
-**Tier reached:** in progress, targeting Core. **Delivery:** solo.
+**Tier reached:** Core. **Delivery:** solo.
 
 ## Quick start
 
@@ -52,6 +52,11 @@ The generated JSON (`data/synthetic/output/*.jsonl`) and the spend ledger (`data
 | `docs/data-contracts/` | D4 data contracts, one per table |
 | `docs/data-sizing.md` | D5 sizing and the three "is there enough data" checks |
 | `docs/change-requests/` | CR-001, the self-set change request and its re-plan |
+| `docs/rfp-response.md` | Response to the client's RFP: what was delivered against each outcome |
+| `docs/diagrams/` | Sequence diagrams for W1 booking and W2 ask |
+| `docs/pre-mortem.md` | Six failure modes, their signals, and what the runs showed |
+| `docs/cost-sheet.md` | Cost per consultation from the spend ledger |
+| `evals/report.md` | Every pack p16 metric with the measured figure or the reason it is missing |
 | `data/` | Download script, transforms with tests, reference data, loader, inventory |
 | `services/` | agent (LangGraph graphs), scheduling, records, scribe |
 | `evals/` | Eval sets, runs and the report |

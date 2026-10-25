@@ -243,3 +243,20 @@ None in this pull request.
 ### What I rejected, and why
 
 None in this pull request.
+
+---
+
+## PR #11 — Evaluation report, cost sheet and the architecture pack
+
+**Branch:** `docs/eval-report-and-pack`
+**Date:** 25 Oct 2026
+
+### What the assistant proposed
+
+- `evals/build_report.py`: writes `evals/report.md` and `docs/cost-sheet.md` from the run files, the judge calibration and the spend ledger, so no figure is typed by hand; every p16 target is reported with its measured figure or the reason it is missing.
+- `evals/run_sessions.py`: 20 booking sessions played end to end for the "bookings completed without a call" metric, with the clarifying answers labelled as written after the code.
+- Two sequence diagrams (W1 booking, W2 ask), the pre-mortem (labelled as written late and reread against the runs), `docs/rfp-response.md`, and the architecture marked v1.0 as built.
+
+### What I rejected, and why
+
+None in this pull request.
