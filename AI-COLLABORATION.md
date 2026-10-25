@@ -156,3 +156,29 @@ Actual LLM spend for this PR: US$0.265 against the US$0.13 estimate. The differe
 | 2 | Judge the red-flag rules on the eval set alone | Rejected: added held-out phrasings and routine-text negatives as tests | The rules and the eval cases were written by the same assistant, so 10/10 on the set could be overfitting |
 | 3 | GPT-6 Luna as primary, after two runs per model showed 94.1% strict accuracy against Haiku's 88.2% at half the cost | Rejected after my own run measured Luna's p95 at 4.13 s: Claude Haiku 5.5 primary, Luna fallback (ADR 0004) | Luna missed the 4 s p95 target in 2 of 4 runs; Haiku met it in all 3, and both meet the accuracy target. Luna's edge was one deliberately ambiguous case |
 | 4 | Blame the slow first case on the price-list fetch inside the first turn | Accepted the fix (prices load at start-up) but not the explanation | The next Luna run still measured 4.43 s; the variance is in the model calls, so the model choice had to change |
+
+---
+
+## PR #7 — W2 My records
+
+**Branch:** `feat/w2-my-records`
+**Date:** 25 Oct 2026
+
+### What the assistant proposed
+
+- `services/records/parse.py`: parse report PDFs into header fields, title and sections. Checked against the source drafts of all 100 synthetic reports: 100 of 100 match on title and section headings.
+- `services/common/phi.py`: PHI tagging in three layers (known identifiers from the patient row and the document header, identifier patterns as Presidio recognisers, name NER on typed questions), with a token map kept in `doc_phi_token` and restored only for the entitled reader.
+- `services/records/injection.py`: sentences in an upload that address the system are removed at ingest and counted on the document. The red-team PDF loses its 5 instruction sentences and keeps its lab values; 0 sentences removed from the 100 synthetic reports.
+- `services/records/ingest.py`, `jobs.py`: the ingest graph (parse, tag PHI, chunk by section, embed, index) on the RQ worker; re-upload is a no-op by content hash; a document naming a different patient is refused.
+- `services/records/store.py`: the records service behind one interface (Postgres + pgvector, and in-memory for evals). Search takes the patient id as a required argument and ranks exactly within that patient's rows.
+- `services/agent/w2/`: the Ask graph (consent check, scope and safety rules, retrieval, cited answer, verification, audit of every document read).
+- `evals/run_w2.py`, 58 new tests, ADR 0005 and 0006, the `doc_phi_token` data contract.
+
+### What I rejected, and why
+
+| # | Assistant's proposal | My decision | Why |
+|---|---|---|---|
+| 1 | sentence-transformers with PyTorch for BGE-M3 (ADR 0003) | Rejected: ONNX Runtime on BAAI's published ONNX export (ADR 0005) | The CUDA torch wheel timed out and the CPU wheel's host was unreachable; the ONNX output matched BGE-M3's dense vector exactly (max difference 0.0) with about 20 MB of libraries instead of PyTorch |
+| 2 | Presidio's default name detection on report text (architecture decision 9) | Rejected: names detected only in typed questions, and only capitalised spans (ADR 0006) | On the 100 report bodies it flagged 55 distinct "names" and none was a person (Mobitz, Xylocaine, Transthoracic); on Hindi-English questions it flagged ordinary words such as "kitna insulin lena chahiye" |
+| 3 | A "grade context, retrieve again once" loop in the Ask graph (architecture v0.1) | Rejected: one retrieval, then a verify step that rejects unsupported answers | Retrieval put the expected report in the top 8 for 13 of 13 answerable cases, so the loop would add a model call with no measured gain |
+| 4 | The pgvector HNSW index for record search | Rejected: exact ranking within the patient's rows | HNSW applies the patient filter after its approximate scan and can return too few rows; one patient has tens of chunks, so exact ranking is both correct and fast |

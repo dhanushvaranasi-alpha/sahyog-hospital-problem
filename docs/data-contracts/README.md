@@ -1,6 +1,6 @@
 # D4: Data contracts
 
-21 contracts, one per table, written on the pack's template (p53) by `python -m data.build_contracts`.
+22 contracts, one per table, written on the pack's template (p53) by `python -m data.build_contracts`.
 The sensitivity class decides what may cross the hospital boundary (pack p21).
 
 | Table | Owner (role) | Sensitivity | Freshness |
@@ -9,6 +9,7 @@ The sensitivity class decides what may cross the hospital boundary (pack p21).
 | [`consent`](consent.md) | Compliance officer | quasi | Checked on every read; no caching |
 | [`document`](document.md) | Records service owner | direct | Status visible within 60 s of upload (E3-S1) |
 | [`doc_chunk`](doc_chunk.md) | Records service owner | direct | Re-embedded when content_hash changes |
+| [`doc_phi_token`](doc_phi_token.md) | Records service owner | direct | Written with its document in one transaction; deleted with it |
 | [`ingest_job`](ingest_job.md) | Platform | operational | Updated at every state change |
 | [`appointment`](appointment.md) | Scheduling service owner | operational | Real time; tied to a patient, so reads are audited |
 | [`slot`](slot.md) | Scheduling service owner | operational | Availability cached at most 30 s |
@@ -39,3 +40,5 @@ The sensitivity class decides what may cross the hospital boundary (pack p21).
 ## Compliance sign-off of the class column
 
 Signed off by: Dhanush (compliance officer, in role) · Date: 2026-10-24
+
+Added after that sign-off and awaiting review: `doc_phi_token`.

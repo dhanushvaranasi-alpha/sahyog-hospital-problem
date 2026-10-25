@@ -11,6 +11,8 @@ checks:
   - patient_id not null (100%)
   - phi_status in (pending, tagged, failed)
   - uri resolves to a stored file (100%)
+  - (patient_id, content_hash) unique: re-upload is a no-op
+  - header patient matches patient_id, else refused
 consumers:
   - W2 ingest
   - W2 ask (citations)

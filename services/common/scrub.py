@@ -1,8 +1,8 @@
 """Minimal egress scrubber for free text sent to an external model (pack p21: identifiers never leave).
 
 Deterministic patterns for the identifier formats this system issues or sees: Indian phone numbers,
-ABHA numbers, hospital MRNs, emails and patient ids. The Presidio-based scrubber with its token map
-(PR #7, records workflow) replaces this module behind the same function.
+ABHA numbers, hospital MRNs, emails and patient ids. These patterns are also the Presidio pattern
+recognisers in services/common/phi.py, which adds known-identifier matching and a token map (W2).
 """
 from __future__ import annotations
 
