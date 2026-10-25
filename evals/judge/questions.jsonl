@@ -1,0 +1,20 @@
+{"id": "cal-01", "patient_id": "P00761", "question": "What was my calcium score on the cardiac CT?"}
+{"id": "cal-02", "patient_id": "P00582", "question": "Were my coronary arteries blocked on the angiogram?"}
+{"id": "cal-03", "patient_id": "P00663", "question": "Did the heart scan show any vegetations?"}
+{"id": "cal-04", "patient_id": "P00599", "question": "How narrow was my right coronary artery?"}
+{"id": "cal-05", "patient_id": "P00635", "question": "How big is the fluid collection in my pelvis?"}
+{"id": "cal-06", "patient_id": "P00381", "question": "Which cycle of chemotherapy was I admitted for?"}
+{"id": "cal-07", "patient_id": "P00305", "question": "What did my lab report say about my kidneys?"}
+{"id": "cal-08", "patient_id": "P00726", "question": "What antibiotic was I sent home on?"}
+{"id": "cal-09", "patient_id": "P00295", "question": "Did the CT find a blood clot in my lungs?"}
+{"id": "cal-10", "patient_id": "P00655", "question": "What was my white blood cell count?"}
+{"id": "cal-11", "patient_id": "P00427", "question": "What did my ECG show?"}
+{"id": "cal-12", "patient_id": "P00274", "question": "Was anything wrong on my neck CT?"}
+{"id": "cal-13", "patient_id": "P00802", "question": "What did the CT of my abdomen find?"}
+{"id": "cal-14", "patient_id": "P00201", "question": "Was my echocardiogram normal?"}
+{"id": "cal-15", "patient_id": "P00934", "question": "How many METs did I reach on the stress test?"}
+{"id": "cal-16", "patient_id": "P00108", "question": "What was my INR?"}
+{"id": "cal-17", "patient_id": "P00060", "question": "What bacteria grew in my urine culture?"}
+{"id": "cal-18", "patient_id": "P00024", "question": "Which antibiotics was the bacteria in my urine sensitive to?"}
+{"id": "cal-19", "patient_id": "P00555", "question": "What was my platelet count?"}
+{"id": "cal-20", "patient_id": "P00593", "question": "How much was my right carotid artery narrowed?"}

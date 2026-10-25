@@ -12,3 +12,4 @@ The full list of 20 decisions is in `docs/architecture.md` section 4. Decisions 
 | [0004](0004-primary-model-by-measurement.md) | Claude Haiku 5.5 primary, GPT-6 Luna fallback, chosen by the W1 eval (accuracy and latency) | accepted |
 | [0005](0005-bge-m3-on-onnx-runtime.md) | BGE-M3 on ONNX Runtime instead of PyTorch | accepted |
 | [0006](0006-phi-tagging-layers.md) | PHI tagging layers: name NER on typed questions only | accepted |
+| [0007](0007-faithfulness-judge.md) | Faithfulness judge: ragas on GPT-6 Luna, calibrated on 20 answers | accepted |

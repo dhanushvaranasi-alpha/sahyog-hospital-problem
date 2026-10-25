@@ -44,3 +44,32 @@ The runner ingests the 100 synthetic report PDFs into an in-memory store with th
 | GPT-6 Luna (fallback) | 1 | 30/30 | 13/13 | 5/5 | 10/10 | 0 | 2.62 s | US$0.003 |
 
 Read these numbers with care: the set has 30 cases, the same assistant wrote the cases and the code, and 14 of the 30 (hand-offs, scope and injection) are decided by deterministic rules before any model call. `services/agent/w2/tests/test_rules.py` checks the rules on wordings that are not in the set. Faithfulness by a calibrated judge comes in the next pull request.
+
+## Faithfulness judge
+
+`evals/judge/`: ragas 0.4.3 Faithfulness on GPT-6 Luna (ADR 0007). It splits an answer into statements and checks each against the excerpts the answer model saw; an answer is faithful only at 1.0. The required closing hand-off ("your doctor will go through this with you") is removed before judging, because it is an instruction to the patient, not a claim about the record.
+
+```bash
+python -m evals.judge.make_answers --model anthropic/claude-haiku-5.5   # 20 answers to new questions
+python -m evals.judge.calibrate --model openai/gpt-6-luna               # judge vs reference labels
+python -m evals.run_w2 --model anthropic/claude-haiku-5.5 --judge openai/gpt-6-luna
+```
+
+### Calibration, 25 Oct 2026
+
+20 answers to questions that are not in the W2 set; 6 deliberately altered (`calibration_items.jsonl`, field `perturbation`). Dhanush graded G01 and the 3 items on which two candidate judges disagreed; the rest take the planted label.
+
+| Judge | Agreement | Unfaithful caught | Unfaithful missed | Correct answers flagged | Passes (≤ 2 of 20 wrong) |
+|---|---|---|---|---|---|
+| GPT-6 Luna | 20/20 | 7 | 0 | 0 | yes |
+| Claude Haiku 5.5 | 17/20 | 6 | 1 | 2 | no |
+
+One of the 7 unfaithful answers was a real model error, not a planted one: G14 called the report "your report from 1/19/93", the date of an earlier CT in its history, not the report's date. The deterministic number check passed it, because every number appears in the excerpts; the judge caught it.
+
+### W2 with the judge, 25 Oct 2026 (Haiku answers, Luna judge)
+
+Pass 29/30, citation 12/13, scope leaks 0, faithfulness mean 0.93 (target ≥ 0.9), 10 of 13 answers at 1.0, p95 latency 4.26 s.
+
+- The miss, w2-006, was one draft that wrote a number not found in the excerpts; the verify step rejected it as designed and answered "not in record". Three re-runs of that question all passed.
+- The 3 answers below 1.0 were checked against their reports: w2-002 wrote the report date as "6 August 2026" (R0004 is dated 2026-08-06); w2-004 ended with "please ask your doctor", a hand-off phrasing the stripping rule does not cover; w2-008's flagged statements came from the question's word "mother", not from the answer. None states a wrong clinical fact. The judge was not changed after calibration to remove these.
+- p95 latency was 4.26 s on this run against 2.3 s on 24 Oct, with the same code path; model latency varies between runs.
