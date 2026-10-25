@@ -25,6 +25,7 @@ models/
 .cache/
 data/cache/
 data/uploads/
+evals/judge/.judge_cache.json
 
 # OS / editors
 .DS_Store

@@ -1,0 +1,11 @@
+{
+  "grader": "Dhanush",
+  "graded_on": "2026-10-25",
+  "protocol": "Reviewed G01 and the three items on which the two candidate judges disagreed (G11, G14, G15).",
+  "grades": {
+    "G01": "Faithful",
+    "G11": "Faithful",
+    "G14": "Not faithful",
+    "G15": "Faithful"
+  }
+}

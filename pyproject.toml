@@ -27,6 +27,8 @@ dependencies = [
   "huggingface-hub==2.2.0",
   "pypdf==6.21.2",
   "ragas==0.4.3",
+  # ragas 0.4.3 imports langchain_community.chat_models.vertexai, removed in 0.4.2 (ADR 0007)
+  "langchain-community==0.4.1",
   "python-dotenv==1.2.4",
   # Data estate (PR #3). Newest releases older than the 22 Oct 2026 drops; set re-resolved on 3.12.
   "pandas==3.0.6",

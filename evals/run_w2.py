@@ -55,7 +55,7 @@ def load_cases() -> list[EvalCase]:
     return [EvalCase.model_validate(json.loads(l)) for l in (SETS / "w2_records.jsonl").read_text().splitlines() if l.strip()]
 
 
-def run_case(base: InMemoryRecordStore, client, embedder, case: EvalCase) -> dict:
+def run_case(base: InMemoryRecordStore, client, embedder, case: EvalCase, judge=None) -> dict:
     i, e = case.input, case.expect
     store = base.fork()
     for c in i.consents:
@@ -74,6 +74,10 @@ def run_case(base: InMemoryRecordStore, client, embedder, case: EvalCase) -> dic
            "leaks": leaks, "reason": out["reason"], "reads_audited": sum(1 for a in store.audit_log if a["action"] == "read"),
            "latency_s": out["latency_s"], "reply": reply[:400]}
     row["pass"] = row["route"] == e.route and row["cites_ok"] and row["contains_ok"] and not leaks
+    if judge is not None and out["route"] == "answer" and out["draft_deid"]:
+        v = judge.judge(i.question, out["draft_deid"], out["excerpts"])
+        row["faithfulness"] = v.score
+        row["unsupported"] = [s["statement"] for s in v.statements if not s["verdict"]]
     return row
 
 
@@ -91,6 +95,8 @@ def score(rows: list[dict]) -> dict:
         "refusal_accuracy": sum(r["route"] == "refuse" for r in refuse) / len(refuse),
         "scope_leaks": sum(len(r["leaks"]) for r in rows if r["category"] in LEAK_CATEGORIES),
         "all_must_not_hits": sum(len(r["leaks"]) for r in rows),
+        "faithfulness_mean": (round(statistics.mean(f), 3) if (f := [r["faithfulness"] for r in rows if "faithfulness" in r]) else None),
+        "faithful_answers": (f"{sum(x >= 1.0 for x in f)}/{len(f)}" if f else None),
         "p95_latency_s": round(p95([r["latency_s"] for r in rows]), 3),
         "median_latency_s": round(statistics.median(r["latency_s"] for r in rows), 3),
     }
@@ -109,7 +115,7 @@ def retrieval_only(store, embedder, cases: list[EvalCase]) -> None:
     print(f"retrieval recall@{TOP_K}: {hits}/{len(answerable)}")
 
 
-def main(model: str | None, only_retrieval: bool, ids: list[str] | None) -> dict | None:
+def main(model: str | None, only_retrieval: bool, ids: list[str] | None, judge_model: str | None = None) -> dict | None:
     cases = [c for c in load_cases() if not ids or c.id in ids]
     embedder = default_embedder()
     t0 = time.monotonic()
@@ -120,8 +126,12 @@ def main(model: str | None, only_retrieval: bool, ids: list[str] | None) -> dict
         return None
     spend0 = spent_usd()
     client = ModelClient(primary=model, fallback=None)
-    rows = [run_case(store, client, embedder, c) for c in cases]
-    result = {"workflow": "w2", "model": model, "cases": len(rows), "eval_set_version": 1,
+    judge = None
+    if judge_model:
+        from evals.judge.judge import FaithfulnessJudge
+        judge = FaithfulnessJudge(model=judge_model)
+    rows = [run_case(store, client, embedder, c, judge) for c in cases]
+    result = {"workflow": "w2", "model": model, "judge_model": judge_model, "cases": len(rows), "eval_set_version": 1,
               "run_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
               "metrics": score(rows), "spend_usd": round(spent_usd() - spend0, 5), "rows": rows}
     RUNS.mkdir(exist_ok=True)
@@ -141,7 +151,8 @@ if __name__ == "__main__":
     ap.add_argument("--model")
     ap.add_argument("--retrieval-only", action="store_true")
     ap.add_argument("--cases", nargs="*")
+    ap.add_argument("--judge", metavar="MODEL", help="also score faithfulness of answers with the calibrated judge")
     a = ap.parse_args()
     if not a.retrieval_only and not a.model:
         ap.error("--model is required unless --retrieval-only")
-    main(a.model, a.retrieval_only, a.cases)
+    main(a.model, a.retrieval_only, a.cases, a.judge)

@@ -1,0 +1,779 @@
+{
+  "model": "anthropic/claude-haiku-5.5",
+  "run_at": "2026-10-25T08:27:20+00:00",
+  "items": 20,
+  "spend_usd": 0.0,
+  "results": [
+    {
+      "id": "G01",
+      "score": 1.0,
+      "judge_faithful": true,
+      "statements": [
+        {
+          "statement": "The INR from the 2026-10-18 gross hematuria evaluation was 1.4.",
+          "verdict": 1,
+          "reason": "The Haematology and coagulation section of the R0075 report dated 2026-10-18 states INR 1.4."
+        },
+        {
+          "statement": "The report lists the PT of the user as 15.9 seconds.",
+          "verdict": 1,
+          "reason": "The R0075 report dated 2026-10-18 lists Prothrombin time (PT) as 15.9 seconds."
+        },
+        {
+          "statement": "The report lists the PTT of the user as 36.4 seconds.",
+          "verdict": 1,
+          "reason": "The R0075 report dated 2026-10-18 lists Activated partial thromboplastin time (PTT) as 36.4 seconds."
+        },
+        {
+          "statement": "The report describes the PT of the user, which is 15.9 seconds, as elevated.",
+          "verdict": 1,
+          "reason": "The R0075 haematology section describes the Prothrombin time of 15.9 seconds as elevated."
+        },
+        {
+          "statement": "The report describes the PTT of the user, which is 36.4 seconds, as elevated.",
+          "verdict": 1,
+          "reason": "The R0075 haematology section describes the Activated partial thromboplastin time of 36.4 seconds as elevated."
+        }
+      ]
+    },
+    {
+      "id": "G02",
+      "score": 1.0,
+      "judge_faithful": true,
+      "statements": [
+        {
+          "statement": "The CT report from 2026-06-26 describes a loculated fluid collection in the left pelvis.",
+          "verdict": 1,
+          "reason": "The report's CT pelvis findings state that within the left lower quadrant there is a 3.4 cm x 2.5 cm loculated fluid collection, which is located in the left pelvis."
+        },
+        {
+          "statement": "The CT report from 2026-06-26 describes the loculated fluid collection in the left pelvis as measuring \"3.4 cm x 2.5 cm\".",
+          "verdict": 1,
+          "reason": "The report explicitly describes the loculated fluid collection in the left lower quadrant/pelvis as a 3.4 cm x 2.5 cm loculated fluid collection."
+        },
+        {
+          "statement": "The CT report from 2026-06-26 states that the loculated fluid collection in the left pelvis has not significantly changed in size or appearance.",
+          "verdict": 1,
+          "reason": "The impression and the CT pelvis findings both state that the 3.4 cm x 2.5 cm loculated fluid collection has not significantly changed in size or appearance."
+        },
+        {
+          "statement": "The CT report from 2026-06-26 states that the loculated fluid collection in the left pelvis is located next to the anastomosis site.",
+          "verdict": 1,
+          "reason": "The CT pelvis findings state that the loculated fluid collection is adjacent to the anastomosis site."
+        },
+        {
+          "statement": "The CT report from 2026-06-26 states that a pelvic abscess cannot be excluded.",
+          "verdict": 1,
+          "reason": "The CT pelvis findings state that the loculated fluid collection is adjacent to the anastomosis site and that a pelvic abscess cannot be excluded."
+        }
+      ]
+    },
+    {
+      "id": "G03",
+      "score": 1.0,
+      "judge_faithful": true,
+      "statements": [
+        {
+          "statement": "The urine culture grew E. coli.",
+          "verdict": 1,
+          "reason": "The urine culture result states more than 100,000 colony-forming units per mL of Escherichia coli, which is E. coli."
+        },
+        {
+          "statement": "The urine culture report states that E. coli is sensitive to amikacin.",
+          "verdict": 1,
+          "reason": "The context states that the isolate is sensitive to amikacin in both the culture result and the impression."
+        },
+        {
+          "statement": "The urine culture report states that E. coli is sensitive to nitrofurantoin.",
+          "verdict": 1,
+          "reason": "The context states that the isolate is sensitive to nitrofurantoin in both the culture result and the impression."
+        },
+        {
+          "statement": "The urine culture report states that E. coli is sensitive to imipenem.",
+          "verdict": 1,
+          "reason": "The context states that the isolate is sensitive to imipenem in both the culture result and the impression."
+        },
+        {
+          "statement": "The urine culture report states that E. coli is sensitive to meropenem.",
+          "verdict": 1,
+          "reason": "The context states that the isolate is sensitive to meropenem in both the culture result and the impression."
+        },
+        {
+          "statement": "E. coli is resistant to most other tested antibiotics.",
+          "verdict": 1,
+          "reason": "The context states that the isolate is resistant to most tested antibiotics, which directly supports this statement."
+        }
+      ]
+    },
+    {
+      "id": "G04",
+      "score": 1.0,
+      "judge_faithful": true,
+      "statements": [
+        {
+          "statement": "The white blood cell count was 11.1 x10^3/µL on 2026-09-06 according to report R0048.",
+          "verdict": 1,
+          "reason": "Report R0048 dated 2026-09-06 lists the white blood cell count as 11.1 x10^3/µL in its complete blood count section."
+        },
+        {
+          "statement": "The white blood cell count was 16.5 x10^3/microlitre on 2026-09-29 according to report R0047.",
+          "verdict": 1,
+          "reason": "Report R0047 dated 2026-09-29 lists WBC as 16.5 x10^3/microlitre in its Investigations section."
+        },
+        {
+          "statement": "Report R0047 describes the white blood cell count of 16.5 x10^3/microlitre on 2026-09-29 as raised.",
+          "verdict": 1,
+          "reason": "The Impression section of report R0047 states that the white cell count is raised, and the reported value is 16.5 x10^3/microlitre."
+        }
+      ]
+    },
+    {
+      "id": "G05",
+      "score": 0.5,
+      "judge_faithful": false,
+      "statements": [
+        {
+          "statement": "The CT found a blood clot in the lungs.",
+          "verdict": 0,
+          "reason": "The CT report explicitly states that no pulmonary arterial embolism is seen and no evidence of acute pulmonary arterial embolism is present."
+        },
+        {
+          "statement": "The CT report shows a small clot in a lower-lobe pulmonary artery branch.",
+          "verdict": 0,
+          "reason": "The report states that no pulmonary arterial embolism is seen, so a clot in a lower-lobe pulmonary artery branch is not supported by the context."
+        },
+        {
+          "statement": "The CT report notes an enlarged main pulmonary artery.",
+          "verdict": 1,
+          "reason": "The impression and findings both state that the main pulmonary artery is enlarged, measuring 4.7 cm in diameter."
+        },
+        {
+          "statement": "The CT report notes lung nodules.",
+          "verdict": 1,
+          "reason": "The report describes bilateral lower lobe pulmonary nodules, including a 7 mm and a 5 mm nodule in the left lower lobe and a 1.5 cm nodule in the right lower lobe."
+        }
+      ]
+    },
+    {
+      "id": "G06",
+      "score": 1.0,
+      "judge_faithful": true,
+      "statements": [
+        {
+          "statement": "The platelet count in the report from 2026-10-12 was approximately 50,000.",
+          "verdict": 1,
+          "reason": "The laboratory report R0093 dated 2026-10-12 lists the platelet count as approximately 50,000, and the impression repeats this value."
+        },
+        {
+          "statement": "The unit of the platelet count is not stated in the source report.",
+          "verdict": 1,
+          "reason": "The report explicitly labels the platelet count as approximately 50,000 with the note (unit not stated in source), so the unit is not given."
+        }
+      ]
+    },
+    {
+      "id": "G07",
+      "score": 0.25,
+      "judge_faithful": false,
+      "statements": [
+        {
+          "statement": "The report describes a mid right coronary artery stenosis of 60% to 70%.",
+          "verdict": 0,
+          "reason": "The context describes the mid right coronary artery stenosis as 80% to 90%, not 60% to 70%."
+        },
+        {
+          "statement": "A stenosis of 60% to 70% means the mid right coronary artery is narrowed by 60% to 70% at the mid section.",
+          "verdict": 0,
+          "reason": "The statement relies on the 60% to 70% figure, but the context reports the mid right coronary artery stenosis as 80% to 90%. The context does not support a 60% to 70% narrowing of the mid right coronary artery."
+        },
+        {
+          "statement": "The report's impression lists the mid right coronary artery stenosis alongside other findings.",
+          "verdict": 1,
+          "reason": "The Impression section lists a mid right coronary artery stenosis of 80% to 90% together with the distal left main plaque, the ostial left anterior descending plaque, normal left ventricular systolic function, and old inferior wall hypokinesis."
+        },
+        {
+          "statement": "The report notes that a cardiovascular surgery consultation has been planned to consider revascularisation of the mid right coronary artery.",
+          "verdict": 0,
+          "reason": "The context states that a cardiovascular surgery consultation is planned to consider coronary artery revascularisation in general. It does not specifically state that the planned revascularisation concerns the mid right coronary artery."
+        }
+      ]
+    },
+    {
+      "id": "G08",
+      "score": 0.9,
+      "judge_faithful": false,
+      "statements": [
+        {
+          "statement": "The neck CT cervical spine report states that no acute abnormalities were seen.",
+          "verdict": 1,
+          "reason": "The CT Cervical Spine Report impression states that no acute abnormalities are seen on the CT of the cervical spine."
+        },
+        {
+          "statement": "The alignment of the neck CT cervical spine appeared normal.",
+          "verdict": 1,
+          "reason": "The impression says the alignment appears normal, and the findings say the cervical spine shows normal alignment."
+        },
+        {
+          "statement": "The bones of the neck CT cervical spine appeared normal.",
+          "verdict": 1,
+          "reason": "The impression says the bones appear normal."
+        },
+        {
+          "statement": "The spinal canal of the neck CT cervical spine appeared normal.",
+          "verdict": 1,
+          "reason": "The impression says the spinal canal appears normal, and the findings state that the central canal is patent."
+        },
+        {
+          "statement": "The soft tissues surrounding the spinal canal on the neck CT cervical spine appeared normal.",
+          "verdict": 1,
+          "reason": "The impression says the surrounding soft tissues appear normal, and the findings say the paravertebral soft tissues are within normal limits."
+        },
+        {
+          "statement": "The neck CT cervical spine showed no fracture.",
+          "verdict": 1,
+          "reason": "The findings state that there is no evidence of fracture."
+        },
+        {
+          "statement": "The neck CT cervical spine showed no dislocation.",
+          "verdict": 1,
+          "reason": "The findings state that there is no evidence of dislocation."
+        },
+        {
+          "statement": "The neck CT cervical spine showed no spondylolisthesis.",
+          "verdict": 1,
+          "reason": "The findings state that there is no evidence of spondylolisthesis."
+        },
+        {
+          "statement": "The lung apices visible on the neck CT scan were clear.",
+          "verdict": 1,
+          "reason": "Both the impression and the findings state that the visualised lung apices are clear."
+        },
+        {
+          "statement": "A small disc bulge at C5-C6 was also noted on the neck CT cervical spine.",
+          "verdict": 0,
+          "reason": "The context reports that disc spaces are maintained and does not mention any disc bulge at C5-C6."
+        }
+      ]
+    },
+    {
+      "id": "G09",
+      "score": 0.0,
+      "judge_faithful": false,
+      "statements": [
+        {
+          "statement": "The coronary calcium score on the cardiac CT dated 2026-10-10 was 97.",
+          "verdict": 0,
+          "reason": "The cardiac CT dated 2026-10-10 reports a coronary calcium score of 79, not 97."
+        },
+        {
+          "statement": "The report on the cardiac CT dated 2026-10-10 describes the coronary calcium score of 97 as indicating at least mild atherosclerosis in the coronary vessels.",
+          "verdict": 0,
+          "reason": "The report describes a coronary calcium score of 79, not 97, as indicating at least mild atherosclerosis. The score of 97 does not appear in the context."
+        }
+      ]
+    },
+    {
+      "id": "G10",
+      "score": 1.0,
+      "judge_faithful": true,
+      "statements": [
+        {
+          "statement": "The ECG taken on 2026-08-01 showed atrial fibrillation.",
+          "verdict": 1,
+          "reason": "The 2026-08-01 cardiology follow-up report states that an electrocardiogram showed atrial fibrillation."
+        },
+        {
+          "statement": "The ECG taken on 2026-08-01 showed a heart rate of 94.",
+          "verdict": 1,
+          "reason": "The same 2026-08-01 report states that the electrocardiogram showed atrial fibrillation with a rate of 94."
+        },
+        {
+          "statement": "The ECG taken on 2026-08-01 showed nonspecific lateral T-wave abnormalities.",
+          "verdict": 1,
+          "reason": "The 2026-08-01 report states that the electrocardiogram showed nonspecific lateral T-wave abnormalities."
+        }
+      ]
+    },
+    {
+      "id": "G11",
+      "score": 0.6666666666666666,
+      "judge_faithful": false,
+      "statements": [
+        {
+          "statement": "The transesophageal echocardiogram is also known as a heart scan.",
+          "verdict": 0,
+          "reason": "The context does not mention any alternative name for the transesophageal echocardiogram or describe it as a heart scan."
+        },
+        {
+          "statement": "The transesophageal echocardiogram was reported as normal.",
+          "verdict": 1,
+          "reason": "The context states that the transesophageal echocardiogram was normal, both in the investigations section and in the impression."
+        },
+        {
+          "statement": "The transesophageal echocardiogram showed no evidence of vegetations.",
+          "verdict": 1,
+          "reason": "The context explicitly states that the transesophageal echocardiogram was normal with no evidence of vegetations."
+        }
+      ]
+    },
+    {
+      "id": "G12",
+      "score": 1.0,
+      "judge_faithful": true,
+      "statements": [
+        {
+          "statement": "The patient was admitted for cycle seven of ifosfamide, mesna, and VP-16 chemotherapy for Ewing sarcoma.",
+          "verdict": 1,
+          "reason": "The Impression section of the R0036 Discharge Summary states that the patient was admitted for cycle seven of ifosfamide, mesna, and VP-16 chemotherapy for Ewing sarcoma, and the Hospital course and Procedures sections repeat this."
+        },
+        {
+          "statement": "The admission for cycle seven of ifosfamide, mesna, and VP-16 chemotherapy for Ewing sarcoma is according to the discharge summary.",
+          "verdict": 1,
+          "reason": "The context is the R0036 Discharge Summary - Ewing Sarcoma Chemotherapy Admission, which explicitly documents the admission for cycle seven of ifosfamide, mesna, and VP-16 chemotherapy for Ewing sarcoma."
+        }
+      ]
+    },
+    {
+      "id": "G13",
+      "score": 0.6666666666666666,
+      "judge_faithful": false,
+      "statements": [
+        {
+          "statement": "The urine culture grew Escherichia coli.",
+          "verdict": 1,
+          "reason": "The context states that the urine culture grew Escherichia coli."
+        },
+        {
+          "statement": "The Escherichia coli in the urine culture was resistant to Levaquin.",
+          "verdict": 1,
+          "reason": "The context states that the Escherichia coli grown in the urine culture was resistant to Levaquin."
+        },
+        {
+          "statement": "The treatment was changed to ciprofloxacin because the Escherichia coli was resistant to Levaquin.",
+          "verdict": 0,
+          "reason": "The context states that treatment was changed to doripenem, not ciprofloxacin. The resistance to Levaquin is mentioned, but the drug named in the statement is not supported by the context."
+        }
+      ]
+    },
+    {
+      "id": "G14",
+      "score": 1.0,
+      "judge_faithful": true,
+      "statements": [
+        {
+          "statement": "The report from 1/19/93 (R0096) says the cerebral angiogram showed 90% narrowing (stenosis) of the right internal carotid artery (RICA).",
+          "verdict": 1,
+          "reason": "The Imaging findings section, dated 1/19/93, states that the cerebral angiogram showed 90% stenosis of the RICA. The report identifier R0096 matches."
+        },
+        {
+          "statement": "The Impression section of the report from 1/19/93 (R0096) lists 90% right internal carotid artery stenosis.",
+          "verdict": 1,
+          "reason": "The Impression section of R0096 states that cerebral angiography showed 90% right internal carotid artery stenosis. The 1/19/93 date comes from the imaging study, not from the section header, but the stated finding is directly supported."
+        }
+      ]
+    },
+    {
+      "id": "G15",
+      "score": 0.8,
+      "judge_faithful": false,
+      "statements": [
+        {
+          "statement": "The angiogram report says the coronary arteries of the patient are angiographically patent.",
+          "verdict": 1,
+          "reason": "The report states that the coronary arteries are angiographically patent, apart from myocardial bridging of the mid and distal left anterior descending artery."
+        },
+        {
+          "statement": "Angiographically patent means the coronary arteries are open.",
+          "verdict": 0,
+          "reason": "The context uses the term angiographically patent but does not define it as meaning open. This definition comes from general medical knowledge rather than the context."
+        },
+        {
+          "statement": "The coronary arteries of the patient have myocardial bridging.",
+          "verdict": 1,
+          "reason": "The report describes two segments of myocardial bridging in the mid and distal left anterior descending artery."
+        },
+        {
+          "statement": "Myocardial bridging is a squeezing of the mid and distal left anterior descending artery.",
+          "verdict": 1,
+          "reason": "The context reports moderate systolic compression of the mid left anterior descending artery and mild systolic compression of the distal segment, described as consistent with myocardial bridging. This supports the squeezing description, although the context does not give an explicit general definition of myocardial bridging."
+        },
+        {
+          "statement": "The angiogram report states that no other atherosclerotic obstruction was seen in the coronary arteries of the patient.",
+          "verdict": 1,
+          "reason": "The coronary arteriography section explicitly states that there is no other atherosclerotic obstruction."
+        }
+      ]
+    },
+    {
+      "id": "G16",
+      "score": 1.0,
+      "judge_faithful": true,
+      "statements": [
+        {
+          "statement": "The stress test report states that the user reached 10.1 METs on the exercise stress test.",
+          "verdict": 1,
+          "reason": "The exercise stress test report states that total METs were 10.1, and the Impression section repeats that the exercise tolerance was good with 10.1 METs."
+        },
+        {
+          "statement": "The stress test report describes the user's exercise tolerance as good.",
+          "verdict": 1,
+          "reason": "The report summary says good exercise duration, tolerance and double product, and the Impression states that the exercise tolerance was good."
+        }
+      ]
+    },
+    {
+      "id": "G17",
+      "score": 1.0,
+      "judge_faithful": true,
+      "statements": [
+        {
+          "statement": "The lab report from 2026-09-19 says the abdominal ultrasound showed both kidneys were echogenic.",
+          "verdict": 1,
+          "reason": "The Microbiology and imaging section states that the ultrasound of the abdomen showed both kidneys echogenic, and the Impression section repeats this finding."
+        },
+        {
+          "statement": "The lab report from 2026-09-19 says the abdominal ultrasound showed that the renal cortices suggest chronic medical renal disease.",
+          "verdict": 1,
+          "reason": "The Microbiology and imaging section states that the cortices suggest chronic medical renal disease."
+        },
+        {
+          "statement": "Kidney blood tests showed creatinine at 2.7 mg/dL.",
+          "verdict": 1,
+          "reason": "The Renal and electrolytes section lists creatinine as 2.7 mg/dL."
+        },
+        {
+          "statement": "Kidney blood tests showed BUN at 55.7 mg/dL.",
+          "verdict": 1,
+          "reason": "The Renal and electrolytes section lists blood urea nitrogen (BUN) as 55.7 mg/dL."
+        },
+        {
+          "statement": "The lab report lists acute on chronic renal failure.",
+          "verdict": 1,
+          "reason": "The Assessment and plan section lists acute on chronic renal failure as a problem."
+        },
+        {
+          "statement": "The lab report lists that acute on chronic renal failure is to be followed up with Nephrology.",
+          "verdict": 1,
+          "reason": "The Assessment and plan section states that acute on chronic renal failure is to follow up with Nephrology."
+        }
+      ]
+    },
+    {
+      "id": "G18",
+      "score": 1.0,
+      "judge_faithful": true,
+      "statements": [
+        {
+          "statement": "The user was discharged home on doxycycline.",
+          "verdict": 1,
+          "reason": "The discharge summary states that the patient was discharged home in stable condition with doxycycline 100 mg by mouth twice daily for 10 days."
+        },
+        {
+          "statement": "The doxycycline was to be taken by mouth twice daily for 10 days.",
+          "verdict": 1,
+          "reason": "The discharge plan specifies doxycycline 100 mg by mouth twice daily for 10 days."
+        },
+        {
+          "statement": "According to the discharge summary, the user was discharged home on doxycycline.",
+          "verdict": 1,
+          "reason": "The statement is attributed to the Discharge Summary (R0042), which records discharge home with doxycycline under its Discharge plan and condition section."
+        }
+      ]
+    },
+    {
+      "id": "G19",
+      "score": 1.0,
+      "judge_faithful": true,
+      "statements": [
+        {
+          "statement": "The CT scan of the abdomen and pelvis found a right inguinal hernia.",
+          "verdict": 1,
+          "reason": "The findings section states that a right inguinal hernia is present and contains a loop of small bowel."
+        },
+        {
+          "statement": "The right inguinal hernia contains a loop of small bowel.",
+          "verdict": 1,
+          "reason": "The findings section explicitly states that the right inguinal hernia contains a loop of small bowel."
+        },
+        {
+          "statement": "The right inguinal hernia may be causing partial obstruction of the small bowel.",
+          "verdict": 1,
+          "reason": "The findings state that the hernia may produce partial obstruction, and the impression states that partial obstruction is suspected."
+        },
+        {
+          "statement": "The CT scan of the abdomen and pelvis found mild fluid distension of several small bowel loops.",
+          "verdict": 1,
+          "reason": "The findings section states that there is mild fluid distension of several small bowel loops, particularly in the right lower quadrant."
+        },
+        {
+          "statement": "The CT scan of the abdomen and pelvis showed a 13 mm fluid collection of uncertain cause in the anterior pararenal space.",
+          "verdict": 1,
+          "reason": "The findings and impression both describe a 13 mm fluid collection of uncertain etiology in the anterior pararenal space."
+        },
+        {
+          "statement": "The CT scan of the abdomen and pelvis showed nonspecific retroperitoneal lymph nodes.",
+          "verdict": 1,
+          "reason": "The findings state that numerous nonspecific retroperitoneal and mesenteric lymph nodes are present."
+        },
+        {
+          "statement": "The CT scan of the abdomen and pelvis showed nonspecific mesenteric lymph nodes.",
+          "verdict": 1,
+          "reason": "The findings state that numerous nonspecific retroperitoneal and mesenteric lymph nodes are present."
+        },
+        {
+          "statement": "The retroperitoneal lymph nodes may be reactive.",
+          "verdict": 1,
+          "reason": "The findings state that the nonspecific retroperitoneal and mesenteric lymph nodes may be reactive."
+        },
+        {
+          "statement": "The mesenteric lymph nodes may be reactive.",
+          "verdict": 1,
+          "reason": "The findings state that the nonspecific retroperitoneal and mesenteric lymph nodes may be reactive."
+        },
+        {
+          "statement": "The CT scan of the abdomen and pelvis showed significant diverticulosis of the sigmoid colon.",
+          "verdict": 1,
+          "reason": "The findings describe significant diverticulosis coli of the sigmoid and distal descending colon."
+        },
+        {
+          "statement": "The CT scan of the abdomen and pelvis showed significant diverticulosis of the distal descending colon.",
+          "verdict": 1,
+          "reason": "The findings describe significant diverticulosis coli of the sigmoid and distal descending colon."
+        },
+        {
+          "statement": "The diverticulosis of the sigmoid colon and the distal descending colon is without diverticulitis.",
+          "verdict": 1,
+          "reason": "The findings state that the diverticulosis occurs without evidence of diverticulitis, and the impression confirms this."
+        },
+        {
+          "statement": "The CT scan of the abdomen and pelvis showed mild intrahepatic biliary ductal dilatation.",
+          "verdict": 1,
+          "reason": "The findings section states that the liver shows mild intrahepatic biliary ductal dilatation."
+        },
+        {
+          "statement": "The intrahepatic biliary ductal dilatation may be related to the gallbladder removal.",
+          "verdict": 1,
+          "reason": "The findings state that the dilatation may be secondary to the post-cholecystectomy state, which refers to the gallbladder removal."
+        },
+        {
+          "statement": "The CT scan of the abdomen and pelvis showed diffuse osteopenia.",
+          "verdict": 1,
+          "reason": "The findings section states that there is diffuse osteopenia."
+        },
+        {
+          "statement": "The CT scan of the abdomen and pelvis showed degenerative changes in the lower spine.",
+          "verdict": 1,
+          "reason": "The findings state that there are significant degenerative changes in the lower lumbar spine."
+        }
+      ]
+    },
+    {
+      "id": "G20",
+      "score": 0.8888888888888888,
+      "judge_faithful": false,
+      "statements": [
+        {
+          "statement": "The echocardiogram report says cardiac function is normal.",
+          "verdict": 1,
+          "reason": "The echocardiogram report states that cardiac function is normal in both the Impression and Findings sections."
+        },
+        {
+          "statement": "The echocardiogram report says there is no significant chamber enlargement in the heart.",
+          "verdict": 1,
+          "reason": "The report states that there is no significant chamber enlargement or hypertrophy."
+        },
+        {
+          "statement": "The echocardiogram report says there is no significant hypertrophy in the heart.",
+          "verdict": 1,
+          "reason": "The report states that there is no significant chamber enlargement or hypertrophy."
+        },
+        {
+          "statement": "The echocardiogram report says there is no pericardial effusion.",
+          "verdict": 1,
+          "reason": "The report explicitly states that there is no pericardial effusion."
+        },
+        {
+          "statement": "The echocardiogram report says the ejection fraction is 65%.",
+          "verdict": 0,
+          "reason": "The report does not mention an ejection fraction value anywhere. It only says cardiac function is normal."
+        },
+        {
+          "statement": "The echocardiogram report says no vegetations were seen.",
+          "verdict": 1,
+          "reason": "The report states that no vegetations are seen."
+        },
+        {
+          "statement": "The echocardiogram report says the aortic valve is trileaflet.",
+          "verdict": 1,
+          "reason": "The report states that the aortic valve is trileaflet."
+        },
+        {
+          "statement": "The echocardiogram report says the coronary artery origins appear normal.",
+          "verdict": 1,
+          "reason": "The report states that the coronary artery origins appear normal."
+        },
+        {
+          "statement": "The echocardiogram report says the interatrial septum is intact.",
+          "verdict": 1,
+          "reason": "The report states that the interatrial septum is intact."
+        }
+      ]
+    }
+  ],
+  "calibration": {
+    "agreement": 0.85,
+    "disagreements": [
+      "G11",
+      "G14",
+      "G15"
+    ],
+    "unfaithful_caught": 6,
+    "unfaithful_missed": 1,
+    "faithful_flagged": 2,
+    "human_labels": 4,
+    "passes": false,
+    "rule": "at most 2 of 20 disagreements",
+    "rows": [
+      {
+        "id": "G01",
+        "reference_faithful": true,
+        "label_source": "human",
+        "judge_faithful": true,
+        "agree": true
+      },
+      {
+        "id": "G02",
+        "reference_faithful": true,
+        "label_source": "planted",
+        "judge_faithful": true,
+        "agree": true
+      },
+      {
+        "id": "G03",
+        "reference_faithful": true,
+        "label_source": "planted",
+        "judge_faithful": true,
+        "agree": true
+      },
+      {
+        "id": "G04",
+        "reference_faithful": true,
+        "label_source": "planted",
+        "judge_faithful": true,
+        "agree": true
+      },
+      {
+        "id": "G05",
+        "reference_faithful": false,
+        "label_source": "planted",
+        "judge_faithful": false,
+        "agree": true
+      },
+      {
+        "id": "G06",
+        "reference_faithful": true,
+        "label_source": "planted",
+        "judge_faithful": true,
+        "agree": true
+      },
+      {
+        "id": "G07",
+        "reference_faithful": false,
+        "label_source": "planted",
+        "judge_faithful": false,
+        "agree": true
+      },
+      {
+        "id": "G08",
+        "reference_faithful": false,
+        "label_source": "planted",
+        "judge_faithful": false,
+        "agree": true
+      },
+      {
+        "id": "G09",
+        "reference_faithful": false,
+        "label_source": "planted",
+        "judge_faithful": false,
+        "agree": true
+      },
+      {
+        "id": "G10",
+        "reference_faithful": true,
+        "label_source": "planted",
+        "judge_faithful": true,
+        "agree": true
+      },
+      {
+        "id": "G11",
+        "reference_faithful": true,
+        "label_source": "human",
+        "judge_faithful": false,
+        "agree": false
+      },
+      {
+        "id": "G12",
+        "reference_faithful": true,
+        "label_source": "planted",
+        "judge_faithful": true,
+        "agree": true
+      },
+      {
+        "id": "G13",
+        "reference_faithful": false,
+        "label_source": "planted",
+        "judge_faithful": false,
+        "agree": true
+      },
+      {
+        "id": "G14",
+        "reference_faithful": false,
+        "label_source": "human",
+        "judge_faithful": true,
+        "agree": false
+      },
+      {
+        "id": "G15",
+        "reference_faithful": true,
+        "label_source": "human",
+        "judge_faithful": false,
+        "agree": false
+      },
+      {
+        "id": "G16",
+        "reference_faithful": true,
+        "label_source": "planted",
+        "judge_faithful": true,
+        "agree": true
+      },
+      {
+        "id": "G17",
+        "reference_faithful": true,
+        "label_source": "planted",
+        "judge_faithful": true,
+        "agree": true
+      },
+      {
+        "id": "G18",
+        "reference_faithful": true,
+        "label_source": "planted",
+        "judge_faithful": true,
+        "agree": true
+      },
+      {
+        "id": "G19",
+        "reference_faithful": true,
+        "label_source": "planted",
+        "judge_faithful": true,
+        "agree": true
+      },
+      {
+        "id": "G20",
+        "reference_faithful": false,
+        "label_source": "planted",
+        "judge_faithful": false,
+        "agree": true
+      }
+    ]
+  }
+}

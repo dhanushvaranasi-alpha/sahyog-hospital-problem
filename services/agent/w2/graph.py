@@ -189,4 +189,7 @@ def ask(graph, *, caller_id: str, subject_id: str, question: str, caller_role: s
     return {"route": out["route"], "reply": out["reply"], "citations": out.get("citations", []),
             "reason": out.get("reason"), "audit_ids": out.get("audit_ids", []),
             "retrieved": [c.source_ref for c in out.get("chunks", [])],
-            "latency_s": round(time.monotonic() - started, 3)}
+            "latency_s": round(time.monotonic() - started, 3),
+            # de-identified draft and the excerpts it was written from: for the faithfulness judge, never returned by the API
+            "draft_deid": (out.get("draft") or {}).get("answer"),
+            "excerpts": format_excerpts(out.get("chunks", []))}
