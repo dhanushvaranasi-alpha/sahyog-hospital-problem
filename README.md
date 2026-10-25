@@ -51,6 +51,7 @@ The generated JSON (`data/synthetic/output/*.jsonl`) and the spend ledger (`data
 | `docs/assumptions.md` | D3 assumptions register: owner, validation, fallback |
 | `docs/data-contracts/` | D4 data contracts, one per table |
 | `docs/data-sizing.md` | D5 sizing and the three "is there enough data" checks |
+| `docs/change-requests/` | CR-001, the self-set change request and its re-plan |
 | `data/` | Download script, transforms with tests, reference data, loader, inventory |
 | `services/` | agent (LangGraph graphs), scheduling, records, scribe |
 | `evals/` | Eval sets, runs and the report |
@@ -90,6 +91,9 @@ python -m evals.run_w2 --model anthropic/claude-haiku-5.5   # score the 30 W2 ca
 | `POST /v1/w2/questions` | Ask about your records, or a consenting relative's (`subject_patient_id`) |
 | `POST /v1/w2/uploads` | Upload a PDF report (max 10 MB); returns a job id at once; the worker ingests it |
 | `GET /v1/w2/uploads/{job_id}` | Ingest status, shown only to the uploader |
+| `GET /v1/w2/documents` | Your documents, and which you can erase |
+| `DELETE /v1/w2/documents/{doc_id}` | Erase an upload and every derived copy (CR-001, DPDP s. 12) |
+| `POST /v1/w2/consents` · `DELETE /v1/w2/consents/{grantee_id}` | Grant or withdraw a caregiver's access (DPDP s. 6(4)) |
 | `GET /health` | Postgres and Redis reachability |
 
 ```sh

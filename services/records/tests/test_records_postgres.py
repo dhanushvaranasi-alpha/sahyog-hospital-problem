@@ -97,3 +97,18 @@ def test_audit_is_append_only(pg):
         with conn.cursor() as cur:
             cur.execute("DELETE FROM audit_event WHERE event_id = %s", (eid,))
     conn.rollback()
+
+
+def test_delete_document_and_consent_lifecycle(pg):
+    store, conn = pg
+    r = ingest_file(store, Emb1024(), REDTEAM, "P00637", doc_type="upload")
+    assert store.chunk_texts(r["doc_id"])
+    assert store.delete_document(r["doc_id"]) and store.document(r["doc_id"]) is None
+    assert store.tokens([r["doc_id"]])[r["doc_id"]] == {}
+    with conn.cursor() as cur:
+        cur.execute("SELECT count(*) FROM doc_chunk WHERE doc_id = %s::uuid", (r["doc_id"],))
+        assert cur.fetchone()[0] == 0
+    cid = store.grant_consent("P00637", "P00219", 30, "test-fixture")
+    assert store.grant("P00637", "P00219").state == "valid" and cid
+    assert store.revoke_consent("P00637", "P00219") == 1
+    assert store.grant("P00637", "P00219").state == "revoked"

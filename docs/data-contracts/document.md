@@ -13,6 +13,7 @@ checks:
   - uri resolves to a stored file (100%)
   - (patient_id, content_hash) unique: re-upload is a no-op
   - header patient matches patient_id, else refused
+  - a patient's upload is erasable on request with every derived copy (CR-001, tested)
 consumers:
   - W2 ingest
   - W2 ask (citations)

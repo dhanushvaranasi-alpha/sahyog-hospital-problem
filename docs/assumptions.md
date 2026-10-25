@@ -1,6 +1,6 @@
 # D3 — Assumptions register
 
-Each assumption has an owner, a way to validate it, and a fallback if it fails (pack p10). Rows A01–A10 close the D2 questions, which have no client answers; A11–A14 are technical assumptions behind the architecture.
+Each assumption has an owner, a way to validate it, and a fallback if it fails (pack p10). Rows A01–A10 close the D2 questions, which have no client answers; A11–A14 are technical assumptions behind the architecture; A15 comes from the self-set change request CR-001.
 
 Owners are roles. In this delivery every role is held by the delivery lead.
 
@@ -20,3 +20,4 @@ Owners are roles. In this delivery every role is held by the delivery lead.
 | A12 | BGE-M3 on a laptop CPU ingests a typical report within the 60-second target (E3-S1) | Architecture decision 8 | Platform | Time ingest of 10 synthetic PDFs end to end | Batch embeddings, or move to a smaller local embedding model and record the change in an ADR | Open — PR #6 |
 | A13 | The whole Core build stays under the US$2.00 budget stop | Architecture decision 15 | Delivery lead | Cost meter totals from traces after every eval run | Cut eval reruns and cap development turns; never raise the stop without an ADR | Open — continuous |
 | A14 | De-identified text is enough for a correct specialty match and a faithful record answer | Architecture decision 5 | Clinical safety | Compare W1 and W2 eval results with scrubbed versus raw synthetic text on 30 cases | Keep identified processing on a local model for the affected step | Open — PR #6 |
+| A15 | Hospital-issued reports are medical records kept under other law; the assistant erases only patient uploads, and erasure requests for hospital reports go to the records office | CR-001 (self-set) | Compliance | Confirm the retention period and the records-office process with the client before go-live | Erase hospital reports from the assistant index only (chunks, vectors, token map); the source record stays in the HIS | Open — CR-001 |

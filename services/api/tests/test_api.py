@@ -165,3 +165,17 @@ def test_upload_rejects_non_pdf(env):
 def test_health(env):
     c, _ = env
     assert c.get("/health").json()["status"] == "ok"
+
+
+def test_cr001_list_erase_and_consent_endpoints(env):
+    c, deps = env
+    docs = c.get("/v1/w2/documents", headers=bearer("P00637")).json()
+    assert len(docs) == 1 and docs[0]["erasable"] is False          # ingested as a hospital report in the fixture
+    assert c.delete(f"/v1/w2/documents/{docs[0]['doc_id']}", headers=bearer("P00637")).status_code == 409
+    assert c.delete(f"/v1/w2/documents/{docs[0]['doc_id']}", headers=bearer("P-PRIYA")).status_code == 404
+    deps.store._docs[docs[0]["doc_id"]].type = "upload"
+    r = c.delete(f"/v1/w2/documents/{docs[0]['doc_id']}", headers=bearer("P00637"))
+    assert r.status_code == 200 and c.get("/v1/w2/documents", headers=bearer("P00637")).json() == []
+    assert c.post("/v1/w2/consents", json={"grantee_id": "P-PRIYA", "days": 30}, headers=bearer("P00637")).status_code == 201
+    assert c.delete("/v1/w2/consents/P-PRIYA", headers=bearer("P00637")).json() == {"withdrawn": 1}
+    assert c.post("/v1/w2/consents", json={"grantee_id": "P-NOBODY"}, headers=bearer("P00637")).status_code == 422

@@ -10,6 +10,7 @@ sensitivity: quasi
 checks:
   - expires_at not null (100%)
   - no read allowed after expires_at or revoked_at (tested)
+  - withdrawal is one API call, like the grant, and takes effect on the next read (CR-001)
   - grantee_id is a known patient or staff id (100%)
 consumers:
   - Records service access check

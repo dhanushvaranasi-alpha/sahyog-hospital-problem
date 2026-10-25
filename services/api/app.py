@@ -40,6 +40,12 @@ class W1Reply(Strict):
     idempotency_key: str | None = Field(default=None, min_length=8, max_length=100)
 
 
+class ConsentGrant(Strict):
+    grantee_id: str = Field(min_length=1, max_length=64)
+    days: int = Field(default=90, ge=1, le=365)
+    purpose: Literal["caregiver"] = "caregiver"
+
+
 class W2Question(Strict):
     question: str = Field(min_length=1, max_length=2000)
     subject_patient_id: str | None = None                         # whose records; default: the caller
@@ -158,6 +164,45 @@ def create_app(deps) -> FastAPI:
         if not st or st.get("patient_id") != c.patient_id:
             raise HTTPException(404, "no such upload")
         return {k: st.get(k) for k in ("job_id", "status", "doc_id", "error", "updated_at")}
+
+    # ---------- CR-001: DPDP erasure and consent withdrawal (self-set change request) ----------
+    @w2.get("/documents")
+    def w2_documents(c: Caller = Depends(patient)):
+        with deps.records() as store:
+            docs = store.documents(c.patient_id)
+        return [{"doc_id": d.doc_id, "type": d.type, "report_id": d.source_ref, "report_date": d.report_date,
+                 "title": d.title, "erasable": d.type == "upload"} for d in docs]
+
+    @w2.delete("/documents/{doc_id}")
+    def w2_erase(doc_id: str, c: Caller = Depends(patient)):
+        from services.records.erasure import ErasureRefused, erase_upload
+        with deps.records() as store:
+            try:
+                r = erase_upload(store, patient_id=c.patient_id, doc_id=doc_id, actor_id=c.sub,
+                                 upload_dir=deps.upload_dir, embedder=deps.embedder)
+            except LookupError:
+                raise HTTPException(404, "no such document") from None
+            except ErasureRefused as e:
+                raise HTTPException(409, str(e)) from None
+        return {"erased": r.doc_id, "chunks_removed": r.chunks_removed, "file_removed": r.file_removed}
+
+    @w2.post("/consents", status_code=201)
+    def w2_grant(body: ConsentGrant, c: Caller = Depends(patient)):
+        from services.records.erasure import grant_consent
+        with deps.records() as store:
+            try:
+                cid = grant_consent(store, subject_id=c.patient_id, grantee_id=body.grantee_id, days=body.days,
+                                    actor_id=c.sub, purpose=body.purpose)
+            except (LookupError, ValueError) as e:
+                raise HTTPException(422, str(e)) from None
+        return {"consent_id": cid, "grantee_id": body.grantee_id, "days": body.days}
+
+    @w2.delete("/consents/{grantee_id}")
+    def w2_withdraw(grantee_id: str, c: Caller = Depends(patient)):
+        from services.records.erasure import withdraw_consent
+        with deps.records() as store:
+            n = withdraw_consent(store, subject_id=c.patient_id, grantee_id=grantee_id, actor_id=c.sub)
+        return {"withdrawn": n}
 
     app.include_router(w1)
     app.include_router(w2)

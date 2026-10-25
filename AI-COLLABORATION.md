@@ -225,3 +225,21 @@ None in this pull request.
 | 1 | Replace ragas with an in-house judge after ragas 0.4.3 failed to import (langchain-community 0.4.2 removed a module it uses) | Overruled: make ragas work | The pack and architecture name ragas; pinning langchain-community to 0.4.1 fixed the import |
 | 2 | Judge with the answer model, Claude Haiku 5.5 | Overruled: use another model | A different provider is a more independent judge; on calibration Luna agreed with the reference on 20/20, Haiku on 17/20 |
 | 3 | Hand-grade all 20 calibration answers | Overruled: review only the items where the two judges disagreed | Planted errors give known labels for the altered items; my time went to the 3 contested cases. The ADR states that 4 of 20 items were graded by a human |
+
+---
+
+## PR #10 — CR-001 (self-set): DPDP erasure and consent withdrawal
+
+**Branch:** `feat/cr-dpdp-erasure`
+**Date:** 25 Oct 2026
+
+### What the assistant proposed
+
+- Three candidate change requests (DPDP erasure, FHIR integration, scanned reports); DPDP erasure was recommended and chosen.
+- `docs/change-requests/CR-001-dpdp-erasure.md`: the request, labelled self-set, with the legal basis, impact analysis per component, re-plan and open questions; ADR 0008 and assumption A15.
+- `services/records/erasure.py` and four API endpoints: list documents, erase an upload with every derived copy (file, document, chunks, vectors, token map, cached embeddings), grant and withdraw caregiver consent, each audited.
+- Keeping audit rows and hospital-issued reports, with the reasons in ADR 0008; 8 tests, including that a file outside the upload folder is never deleted.
+
+### What I rejected, and why
+
+None in this pull request.

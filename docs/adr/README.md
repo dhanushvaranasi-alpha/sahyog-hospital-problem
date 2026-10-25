@@ -13,3 +13,4 @@ The full list of 20 decisions is in `docs/architecture.md` section 4. Decisions 
 | [0005](0005-bge-m3-on-onnx-runtime.md) | BGE-M3 on ONNX Runtime instead of PyTorch | accepted |
 | [0006](0006-phi-tagging-layers.md) | PHI tagging layers: name NER on typed questions only | accepted |
 | [0007](0007-faithfulness-judge.md) | Faithfulness judge: ragas on GPT-6 Luna, calibrated on 20 answers | accepted |
+| [0008](0008-dpdp-erasure.md) | CR-001 (self-set): erasure removes every derived copy of an upload; logs and hospital records stay | accepted |
