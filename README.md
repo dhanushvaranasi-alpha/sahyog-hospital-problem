@@ -62,6 +62,7 @@ The generated JSON (`data/synthetic/output/*.jsonl`) and the spend ledger (`data
 | `evals/` | Eval sets, runs and the report |
 | `infra/` | docker-compose and database init |
 | `memo/` | Executive memo |
+| `demo/` | Six-minute demo: shot list and the commands it runs |
 | `AI-COLLABORATION.md` | One entry per pull request on how the AI assistant was used |
 
 ## W1 Find my doctor

@@ -260,3 +260,20 @@ None in this pull request.
 ### What I rejected, and why
 
 None in this pull request.
+
+---
+
+## PR #12 — Executive memo and demo
+
+**Branch:** `docs/memo-and-demo`
+**Date:** 25 Oct 2026
+
+### What the assistant proposed
+
+- `memo/executive-memo.md`: one page opening with the business result, the results against the client's targets, three decisions, and where the assistant misled us, with every figure taken from `evals/report.md`.
+- `demo/demo.sh` and `demo/script.md`: the six-minute demo as seven commands against the running stack, with on-screen captions because the recording plays without narration; checked end to end against Postgres, Redis and the worker with a scripted model.
+- A fix to `evals/run_w2.py`: single-case runs divided by zero; found when running one case to check tracing.
+
+### What I rejected, and why
+
+None in this pull request.
