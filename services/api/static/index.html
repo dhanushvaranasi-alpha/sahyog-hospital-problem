@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Sahyog Care Companion</title>
+  <meta name="description" content="Find a doctor, ask about your reports and manage your data at Sahyog Health Network (synthetic demo).">
+  <link rel="stylesheet" href="/static/app.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="masthead">
+    <div class="masthead__inner">
+      <div class="brand">
+        <span class="brand__mark" aria-hidden="true">स</span>
+        <div>
+          <p class="brand__name">Sahyog Care Companion</p>
+          <p class="brand__sub">Sahyog Health Network · Pune and Hyderabad</p>
+        </div>
+      </div>
+      <p class="pill pill--note" title="Every patient, doctor and report here is invented">Synthetic data · demo</p>
+    </div>
+  </header>
+
+  <main id="main" class="layout">
+    <!-- Who is using the app: the OPD card -->
+    <aside class="opd" aria-labelledby="opd-title">
+      <div class="opd__head">
+        <h2 id="opd-title" class="opd__label">Patient card</h2>
+        <span class="opd__hosp">OPD</span>
+      </div>
+      <div id="opd-body" class="opd__body">
+        <p class="opd__name" id="me-name">Signing in…</p>
+        <dl class="opd__fields">
+          <div><dt>Patient ID</dt><dd class="mono" id="me-id">—</dd></div>
+          <div><dt>Can read records of</dt><dd id="me-access">—</dd></div>
+        </dl>
+      </div>
+
+      <fieldset class="persona" id="persona-box">
+        <legend>Use the app as</legend>
+        <label class="persona__opt"><input type="radio" name="persona" value="P-PRIYA" id="persona-priya" checked>
+          <span><b>Priya Deshmukh</b><small>34 · caregiver for her mother</small></span></label>
+        <label class="persona__opt"><input type="radio" name="persona" value="P-SUNITA" id="persona-sunita">
+          <span><b>Sunita Deshmukh</b><small>62 · Priya's mother</small></span></label>
+        <label class="persona__opt"><input type="radio" name="persona" value="P00637" id="persona-lakshmi">
+          <span><b>Lakshmi Mehta</b><small>21 · uploads her own report</small></span></label>
+      </fieldset>
+
+      <form class="tokenform" id="token-form" hidden>
+        <label for="token-input">Demo sign-in is off. Paste a bearer token:</label>
+        <textarea id="token-input" rows="3" spellcheck="false" placeholder="python -m services.api.auth --sub P-PRIYA"></textarea>
+        <button class="btn" type="submit">Use token</button>
+      </form>
+    </aside>
+
+    <section class="work" aria-label="Sahyog services">
+      <div class="tabs" role="tablist" aria-label="Services">
+        <button role="tab" id="tab-doctor" aria-controls="panel-doctor" aria-selected="true">Find a doctor</button>
+        <button role="tab" id="tab-records" aria-controls="panel-records" aria-selected="false" tabindex="-1">My records</button>
+        <button role="tab" id="tab-data" aria-controls="panel-data" aria-selected="false" tabindex="-1">My data</button>
+      </div>
+
+      <!-- W1 Find my doctor -->
+      <div role="tabpanel" id="panel-doctor" aria-labelledby="tab-doctor" class="panel">
+        <div class="panel__intro">
+          <h1>Find the right doctor</h1>
+          <p>Describe what is wrong in your own words, in English or Hindi-English. Emergencies are sent to the emergency desk straight away.</p>
+        </div>
+        <ol class="chat" id="chat" aria-live="polite" aria-relevant="additions"></ol>
+        <form class="composer" id="w1-form">
+          <label class="vh" for="w1-input">Your message</label>
+          <textarea id="w1-input" rows="2" maxlength="2000" placeholder="For example: itchy red patches on my skin for two weeks" required></textarea>
+          <div class="composer__row">
+            <div class="chips" id="w1-examples" aria-label="Example messages">
+              <button type="button" class="chip" data-text="Itchy red patches on my skin with small bumps for two weeks">Skin rash</button>
+              <button type="button" class="chip" data-text="Pet mein jalan aur khatti dakar aa rahi hai khana khane ke baad">Pet mein jalan</button>
+              <button type="button" class="chip" data-text="pain">Something vague</button>
+              <button type="button" class="chip chip--alert" data-text="My father has heavy chest pain and is sweating a lot">Chest pain</button>
+            </div>
+            <div class="composer__actions">
+              <button type="button" class="btn btn--quiet" id="w1-reset">Start over</button>
+              <button type="submit" class="btn btn--primary" id="w1-send">Send</button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <!-- W2 My records -->
+      <div role="tabpanel" id="panel-records" aria-labelledby="tab-records" class="panel" hidden>
+        <div class="panel__intro">
+          <h1>Ask about your reports</h1>
+          <p>Answers come only from reports on file, with the report they came from. Diagnosis and medicine questions go to your doctor.</p>
+        </div>
+        <form class="ask" id="w2-form">
+          <div class="ask__who">
+            <label for="w2-subject">Asking about</label>
+            <select id="w2-subject"></select>
+          </div>
+          <label class="vh" for="w2-input">Your question</label>
+          <textarea id="w2-input" rows="2" maxlength="2000" placeholder="For example: what did the neck ultrasound recommend next?" required></textarea>
+          <div class="composer__row">
+            <div class="chips" id="w2-examples" aria-label="Example questions"></div>
+            <button type="submit" class="btn btn--primary" id="w2-send">Ask</button>
+          </div>
+        </form>
+        <ol class="answers" id="answers" aria-live="polite"></ol>
+
+        <section class="upload" aria-labelledby="upload-title">
+          <h2 id="upload-title">Add a report</h2>
+          <p>PDF only, up to 10 MB. It is read on the server, names and numbers are masked, and any text addressed to the assistant is removed before it can be searched.</p>
+          <form id="upload-form" class="upload__row">
+            <label class="file" for="upload-file"><span>Choose a PDF</span>
+              <input type="file" id="upload-file" accept="application/pdf" required></label>
+            <span class="file__name" id="upload-name">No file chosen</span>
+            <button class="btn" type="submit" id="upload-send">Upload</button>
+          </form>
+          <p class="status" id="upload-status" role="status"></p>
+        </section>
+      </div>
+
+      <!-- CR-001 My data -->
+      <div role="tabpanel" id="panel-data" aria-labelledby="tab-data" class="panel" hidden>
+        <div class="panel__intro">
+          <h1>Your data and who can see it</h1>
+          <p>You can erase reports you uploaded and withdraw a family member's access at any time. Hospital-issued reports stay part of your medical record.</p>
+        </div>
+        <section aria-labelledby="docs-title">
+          <h2 id="docs-title">Reports on file</h2>
+          <div class="tablewrap"><table class="docs">
+            <thead><tr><th scope="col">Report</th><th scope="col">Title</th><th scope="col">Date</th><th scope="col">Source</th><th scope="col"><span class="vh">Action</span></th></tr></thead>
+            <tbody id="docs-body"></tbody>
+          </table></div>
+        </section>
+        <section aria-labelledby="given-title">
+          <h2 id="given-title">People who can read your records</h2>
+          <ul class="consents" id="given"></ul>
+          <form class="grant" id="grant-form">
+            <label for="grant-who">Give access to</label>
+            <input id="grant-who" list="grant-people" placeholder="Patient ID, e.g. P-PRIYA" required autocomplete="off">
+            <datalist id="grant-people"><option value="P-PRIYA">Priya Deshmukh</option><option value="P-SUNITA">Sunita Deshmukh</option><option value="P00637">Lakshmi Mehta</option></datalist>
+            <label for="grant-days">for</label>
+            <select id="grant-days"><option value="30">30 days</option><option value="90" selected>90 days</option><option value="365">1 year</option></select>
+            <button class="btn" type="submit">Give access</button>
+          </form>
+        </section>
+        <section aria-labelledby="received-title">
+          <h2 id="received-title">Records you can read for someone else</h2>
+          <ul class="consents" id="received"></ul>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <p>Fictional patients and reports, generated for an FDE Academy engagement. Not medical advice. In an emergency call <b>112</b>; for mental health support call Tele-MANAS <b>14416</b>.</p>
+    <p><a href="/docs">API reference</a></p>
+  </footer>
+
+  <div class="toast" id="toast" role="alert" hidden></div>
+  <script src="/static/app.js" defer></script>
+</body>
+</html>

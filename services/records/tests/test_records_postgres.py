@@ -112,3 +112,11 @@ def test_delete_document_and_consent_lifecycle(pg):
     assert store.grant("P00637", "P00219").state == "valid" and cid
     assert store.revoke_consent("P00637", "P00219") == 1
     assert store.grant("P00637", "P00219").state == "revoked"
+
+
+def test_consents_for_lists_both_directions(pg):
+    store, conn = pg
+    store.grant_consent("P00637", "P00219", 30, "test-fixture")
+    rows = [r for r in store.consents_for("P00637") if r["purpose"] == "test-fixture"]
+    assert rows and rows[0]["grantee_id"] == "P00219" and rows[0]["state"] == "valid"
+    assert any(r["patient_id"] == "P00637" for r in store.consents_for("P00219"))

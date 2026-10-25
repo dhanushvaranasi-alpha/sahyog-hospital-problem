@@ -277,3 +277,22 @@ None in this pull request.
 ### What I rejected, and why
 
 None in this pull request.
+
+---
+
+## PR #13 — Patient web page and README
+
+**Branch:** `feat/patient-ui`
+**Date:** 25 Oct 2026
+
+### What the assistant proposed
+
+- A patient web page served by the API at `/` (plain HTML, CSS and JavaScript, no build step): Find a doctor as a chat with slot cards and an OPD-style booking slip, My records with cited answers and PDF upload with status polling, and My data for erasing uploads and granting or withdrawing caregiver consent. The visual direction (an OPD patient card, self-hosted Bitter, Atkinson Hyperlegible and IBM Plex Mono fonts, light and dark themes) came from the assistant's design guidance for interfaces.
+- The page uses only the existing API and bearer tokens. Two read endpoints were added for it, `GET /v1/me` and `GET /v1/w2/consents` (both directions, from `consents_for` in the records store), and `POST /demo/token`, which signs in as one of the three synthetic personas and returns 404 unless `DEMO_MODE=true`.
+- Accessibility and safety choices: keyboard-operable tabs, visible focus, reduced motion respected, text inserted without `innerHTML`, confirmation for erase and withdraw built into the page, an idempotency key per booking click; checked at desktop and phone width for horizontal scrolling and console errors.
+- README rewritten: problem statement, architecture diagrams, stack, privacy design, setup, using the page per persona, API, evaluation and limits. `demo/script.md` now records the demo through the page, with `demo/demo.sh` kept as the terminal fallback.
+- 4 new tests: page and static files served, demo sign-in off unless enabled, consent listing in both directions (in memory and Postgres).
+
+### What I rejected, and why
+
+None in this pull request.
