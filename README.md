@@ -10,12 +10,12 @@ Requires Docker Desktop and Python 3.12.
 
 ```sh
 cp .env.example .env            # then add your keys locally; .env is git-ignored
-docker compose -f infra/docker-compose.yml up -d   # Postgres + pgvector, Redis
 python3.12 -m venv .venv && source .venv/bin/activate
 pip install -e ".[dev]"
+docker compose -f infra/docker-compose.yml up -d --build   # Postgres + pgvector, Redis, API on :8000, ingest worker
 ```
 
-Services, the worker and the graphs join the compose file as they are built.
+The data steps below fill the database; the API and worker read the same `data/` folder through a mount.
 
 ## Data estate
 
@@ -78,6 +78,27 @@ python -m services.records.ingest --synthetic      # index the 100 reports (firs
 rq worker ingest --url $REDIS_URL                  # worker for uploads (macOS: --worker-class rq.SimpleWorker)
 python -m evals.run_w2 --model anthropic/claude-haiku-5.5   # score the 30 W2 cases (~US$0.005 a run)
 ```
+
+## API
+
+`services/api/`: FastAPI gateway. Identity comes only from a signed bearer token (role, user id, patient id), never from the request body. Per-caller rate limits (Redis, one-minute window), a request id echoed in `X-Request-ID` and used as the trace id in audit rows. W1 sessions survive restarts through the Postgres checkpointer.
+
+| Method and path | What it does |
+|---|---|
+| `POST /v1/w1/sessions` | Start "find my doctor"; returns a clarifying question, slot options, or an emergency/front-desk hand-off |
+| `POST /v1/w1/sessions/{id}/reply` | Answer the question, or pick a slot with an idempotency key; only the patient who started the session |
+| `POST /v1/w2/questions` | Ask about your records, or a consenting relative's (`subject_patient_id`) |
+| `POST /v1/w2/uploads` | Upload a PDF report (max 10 MB); returns a job id at once; the worker ingests it |
+| `GET /v1/w2/uploads/{job_id}` | Ingest status, shown only to the uploader |
+| `GET /health` | Postgres and Redis reachability |
+
+```sh
+TOKEN=$(python -m services.api.auth --sub P-PRIYA)        # development token, 1 hour
+curl -s localhost:8000/v1/w2/questions -H "Authorization: Bearer $TOKEN" -H 'content-type: application/json' \
+     -d '{"question": "What did my mother'"'"'s echocardiogram show?", "subject_patient_id": "P-SUNITA"}'
+```
+
+Interactive docs at `http://localhost:8000/docs`.
 
 ## Evaluation sets
 

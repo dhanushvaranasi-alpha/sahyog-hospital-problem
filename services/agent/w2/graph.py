@@ -181,10 +181,11 @@ def build_ask_graph(store: RecordStore, client: ModelClient | None, embedder: Em
     return g.compile()
 
 
-def ask(graph, *, caller_id: str, subject_id: str, question: str, caller_role: str = "patient") -> dict:
+def ask(graph, *, caller_id: str, subject_id: str, question: str, caller_role: str = "patient",
+        trace_id: str | None = None) -> dict:
     started = time.monotonic()
     out = graph.invoke({"caller_id": caller_id, "caller_role": caller_role, "subject_id": subject_id,
-                        "question": question, "trace_id": uuid.uuid4().hex})
+                        "question": question, "trace_id": trace_id or uuid.uuid4().hex})
     return {"route": out["route"], "reply": out["reply"], "citations": out.get("citations", []),
             "reason": out.get("reason"), "audit_ids": out.get("audit_ids", []),
             "retrieved": [c.source_ref for c in out.get("chunks", [])],

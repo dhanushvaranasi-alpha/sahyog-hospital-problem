@@ -37,7 +37,8 @@ SPEC = {
                 "never sent to an external service (only tokens leave)"],
         consumers=["W2 ask re-identification for the entitled reader"], source="W2 ingest graph, tag_phi step"),
     "ingest_job": dict(owner="Platform", sensitivity="operational", freshness="Updated at every state change",
-        checks=["status in (queued, running, done, failed)", "no job running longer than 10 minutes"],
+        checks=["status in (queued, running, done, failed)", "no job running longer than 10 minutes",
+                "patient_id set from the uploader's token; status shown only to that patient"],
         consumers=["Upload status endpoint", "Operations dashboard"], source="RQ worker"),
     "appointment": dict(owner="Scheduling service owner", sensitivity="operational",
         freshness="Real time; tied to a patient, so reads are audited",
@@ -96,7 +97,7 @@ SPEC = {
 }
 
 # Tables added after the sign-off below; cleared when the compliance officer reviews them.
-PENDING_SIGNOFF = ["doc_phi_token"]
+PENDING_SIGNOFF: list[str] = []
 
 TREATMENT = {
     "direct": "Never leaves the boundary. Tokenise before any external call; Presidio plus Indian phone and ABHA recognisers.",
@@ -126,6 +127,7 @@ def main() -> None:
              *[f"| {k} | {v} |" for k, v in TREATMENT.items()], "",
              "## Compliance sign-off of the class column", "",
              "Signed off by: Dhanush (compliance officer, in role) · Date: 2026-10-24", "",
+             "`doc_phi_token` (added in PR #7) reviewed and approved by: Dhanush (compliance officer, in role) · Date: 2026-10-25", "",
              *([f"Added after that sign-off and awaiting review: {', '.join(f'`{t}`' for t in PENDING_SIGNOFF)}.", ""]
                if PENDING_SIGNOFF else [])]
     (OUT / "README.md").write_text("\n".join(index))

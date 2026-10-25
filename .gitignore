@@ -24,6 +24,7 @@ data/synthetic/pdfs/
 models/
 .cache/
 data/cache/
+data/uploads/
 
 # OS / editors
 .DS_Store
