@@ -55,6 +55,10 @@ Claude Haiku 5.5 is primary because GPT-6 Luna missed the 4 s p95 in two of four
 
 GPT-6 Luna: 100.0% agreement on 20 answers (7 unfaithful caught, 0 missed, 0 correct answers flagged); a human graded 4 of the 20. Details in ADR 0007 and `evals/README.md`.
 
+## Tracing
+
+Model calls and graph runs are traced to LangSmith (project `sahyog-care-companion`) when `LANGSMITH_TRACING=true`; a W2 question was confirmed in the LangSmith UI on 25 Oct 2026. Every model call also carries a trace id in the spend ledger.
+
 ## Spend
 
-All model calls in the build: 846 calls, US$0.438 of the US$2.00 hard stop.
+All model calls in the build: 849 calls, US$0.439 of the US$2.00 hard stop.

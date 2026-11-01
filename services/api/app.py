@@ -9,16 +9,23 @@ upload is filed under the token's patient.
 from __future__ import annotations
 
 import hashlib
+import os
 import uuid
 from datetime import datetime, timedelta, timezone
+from pathlib import Path
 from typing import Literal
 
 from fastapi import APIRouter, Depends, FastAPI, File, Header, HTTPException, Request, UploadFile
-from fastapi.responses import JSONResponse
+from fastapi.responses import FileResponse, JSONResponse
+from fastapi.staticfiles import StaticFiles
 from langgraph.types import Command
 from pydantic import BaseModel, ConfigDict, Field
 
-from services.api.auth import AuthError, Caller, verify
+from services.api.auth import AuthError, Caller, mint, verify
+
+STATIC = Path(__file__).resolve().parent / "static"
+# Demo personas the patient web page may sign in as when DEMO_MODE=true (never in production)
+DEMO_PERSONAS = ("P-PRIYA", "P-SUNITA", "P00637")
 
 IST = timezone(timedelta(hours=5, minutes=30))
 MAX_UPLOAD_BYTES = 10 * 1024 * 1024
@@ -44,6 +51,10 @@ class ConsentGrant(Strict):
     grantee_id: str = Field(min_length=1, max_length=64)
     days: int = Field(default=90, ge=1, le=365)
     purpose: Literal["caregiver"] = "caregiver"
+
+
+class DemoLogin(Strict):
+    patient_id: str = Field(min_length=1, max_length=64)
 
 
 class W2Question(Strict):
@@ -81,6 +92,31 @@ def create_app(deps) -> FastAPI:
             if not ok:
                 raise HTTPException(429, "rate limit exceeded", headers={"Retry-After": str(retry)})
         return check
+
+    # ---------- Patient web page (services/api/static) ----------
+    @app.get("/", include_in_schema=False)
+    def home():
+        return FileResponse(STATIC / "index.html")
+
+    app.mount("/static", StaticFiles(directory=STATIC), name="static")
+
+    @app.post("/demo/token", include_in_schema=False)
+    def demo_token(body: DemoLogin):
+        """Sign-in stand-in for the demo page: off unless DEMO_MODE=true, and only for the synthetic personas."""
+        if os.environ.get("DEMO_MODE", "").lower() != "true":
+            raise HTTPException(404, "not found")
+        if body.patient_id not in DEMO_PERSONAS:
+            raise HTTPException(403, "not a demo persona")
+        return {"token": mint(body.patient_id, "patient", body.patient_id, ttl_s=3600), "expires_in": 3600}
+
+    @app.get("/v1/me")
+    def me(c: Caller = Depends(caller)):
+        name = None
+        if c.patient_id:
+            with deps.records() as store:
+                p = store.patient(c.patient_id)
+                name = p.name if p else None
+        return {"sub": c.sub, "role": c.role, "patient_id": c.patient_id, "name": name}
 
     @app.get("/health")
     def health():
@@ -196,6 +232,21 @@ def create_app(deps) -> FastAPI:
             except (LookupError, ValueError) as e:
                 raise HTTPException(422, str(e)) from None
         return {"consent_id": cid, "grantee_id": body.grantee_id, "days": body.days}
+
+    @w2.get("/consents")
+    def w2_consents(c: Caller = Depends(patient)):
+        """Consents this patient has given, and records this patient may read for someone else."""
+        with deps.records() as store:
+            rows = store.consents_for(c.patient_id)
+            names = {}
+            for r in rows:
+                for pid in (r["patient_id"], r["grantee_id"]):
+                    if pid not in names:
+                        p = store.patient(pid)
+                        names[pid] = p.name if p else pid
+        given = [{**r, "grantee_name": names[r["grantee_id"]]} for r in rows if r["patient_id"] == c.patient_id]
+        received = [{**r, "patient_name": names[r["patient_id"]]} for r in rows if r["grantee_id"] == c.patient_id]
+        return {"given": given, "received": received}
 
     @w2.delete("/consents/{grantee_id}")
     def w2_withdraw(grantee_id: str, c: Caller = Depends(patient)):

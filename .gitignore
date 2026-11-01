@@ -34,3 +34,6 @@ evals/judge/.judge_cache.json
 
 # Build artefacts from `pip install -e .`
 *.egg-info/
+
+# single-case eval runs (--cases) are for checking, not reporting
+evals/runs/w2partial_*

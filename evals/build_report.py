@@ -164,6 +164,11 @@ def main() -> None:
         f"{cal['unfaithful_missed']} missed, {cal['faithful_flagged']} correct answers flagged); a human graded "
         f"{cal['human_labels']} of the 20. Details in ADR 0007 and `evals/README.md`.",
         "",
+        "## Tracing",
+        "",
+        "Model calls and graph runs are traced to LangSmith (project `sahyog-care-companion`) when `LANGSMITH_TRACING=true`; "
+        "a W2 question was confirmed in the LangSmith UI on 25 Oct 2026. Every model call also carries a trace id in the spend ledger.",
+        "",
         "## Spend",
         "",
         f"All model calls in the build: {led['calls']} calls, US${led['total']:.3f} of the US$2.00 hard stop.",

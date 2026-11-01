@@ -81,6 +81,7 @@ class RecordStore(Protocol):
     def delete_document(self, doc_id: str) -> bool: ...
     def grant_consent(self, subject_id: str, grantee_id: str, days: int, purpose: str) -> str: ...
     def revoke_consent(self, subject_id: str, grantee_id: str) -> int: ...
+    def consents_for(self, patient_id: str) -> list[dict]: ...
 
 
 def _grant_from(rows: list[tuple[str, str, datetime, datetime | None]], at: datetime) -> Grant:
@@ -197,6 +198,16 @@ class InMemoryRecordStore:
                 c["revoked_at"] = datetime.now(timezone.utc)
                 n += 1
         return n
+
+    def consents_for(self, patient_id: str) -> list[dict]:
+        now = datetime.now(timezone.utc)
+        out = []
+        for c in self._consents:
+            if patient_id in (c["patient_id"], c["grantee_id"]):
+                state = _grant_from([(c["consent_id"], c["purpose"], c["expires_at"], c["revoked_at"])], now).state
+                out.append({"consent_id": c["consent_id"], "patient_id": c["patient_id"], "grantee_id": c["grantee_id"],
+                            "purpose": c["purpose"], "expires_at": c["expires_at"].isoformat(), "state": state})
+        return out
 
     def audit(self, *, actor_id: str, actor_role: str, purpose: str, action: str, resource_type: str,
               resource_id: str, trace_id: str | None = None) -> int:
@@ -332,6 +343,17 @@ class PostgresRecordStore:
             n = cur.rowcount
         self.conn.commit()
         return n
+
+    def consents_for(self, patient_id: str) -> list[dict]:
+        now = datetime.now(timezone.utc)
+        with self.conn.cursor() as cur:
+            cur.execute("SELECT consent_id, patient_id, grantee_id, purpose, expires_at, revoked_at FROM consent "
+                        "WHERE (patient_id = %s OR grantee_id = %s) AND scope = 'records:read' ORDER BY created_at",
+                        (patient_id, patient_id))
+            rows = cur.fetchall()
+        return [{"consent_id": str(r[0]), "patient_id": r[1], "grantee_id": r[2], "purpose": r[3],
+                 "expires_at": r[4].isoformat(), "state": _grant_from([(r[0], r[3], r[4], r[5])], now).state}
+                for r in rows]
 
     def audit(self, *, actor_id: str, actor_role: str, purpose: str, action: str, resource_type: str,
               resource_id: str, trace_id: str | None = None) -> int:

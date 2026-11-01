@@ -81,18 +81,23 @@ def run_case(base: InMemoryRecordStore, client, embedder, case: EvalCase, judge=
     return row
 
 
+def _ratio(hits, of: list) -> float | None:
+    """Share of `of` that are hits; None when a --cases subset has no case of that kind."""
+    return sum(hits) / len(of) if of else None
+
+
 def score(rows: list[dict]) -> dict:
     answers = [r for r in rows if r["expected_route"] == "answer" and r["expected_cites"]]
     handoff = [r for r in rows if r["expected_route"] == "handoff_doctor"]
     refuse = [r for r in rows if r["expected_route"] == "refuse"]
     return {
-        "pass_rate": sum(r["pass"] for r in rows) / len(rows),
-        "route_accuracy": sum(r["route"] == r["expected_route"] for r in rows) / len(rows),
-        "citation_accuracy": sum(r["route"] == "answer" and r["cites_ok"] for r in answers) / len(answers),
-        "answer_contains_accuracy": sum(r["route"] == "answer" and r["contains_ok"] for r in answers) / len(answers),
-        "retrieval_recall_at_k": sum(set(r["expected_cites"]) <= set(r["retrieved"]) for r in answers) / len(answers),
-        "handoff_accuracy": sum(r["route"] == "handoff_doctor" for r in handoff) / len(handoff),
-        "refusal_accuracy": sum(r["route"] == "refuse" for r in refuse) / len(refuse),
+        "pass_rate": _ratio((r["pass"] for r in rows), rows),
+        "route_accuracy": _ratio((r["route"] == r["expected_route"] for r in rows), rows),
+        "citation_accuracy": _ratio((r["route"] == "answer" and r["cites_ok"] for r in answers), answers),
+        "answer_contains_accuracy": _ratio((r["route"] == "answer" and r["contains_ok"] for r in answers), answers),
+        "retrieval_recall_at_k": _ratio((set(r["expected_cites"]) <= set(r["retrieved"]) for r in answers), answers),
+        "handoff_accuracy": _ratio((r["route"] == "handoff_doctor" for r in handoff), handoff),
+        "refusal_accuracy": _ratio((r["route"] == "refuse" for r in refuse), refuse),
         "scope_leaks": sum(len(r["leaks"]) for r in rows if r["category"] in LEAK_CATEGORIES),
         "all_must_not_hits": sum(len(r["leaks"]) for r in rows),
         "faithfulness_mean": (round(statistics.mean(f), 3) if (f := [r["faithfulness"] for r in rows if "faithfulness" in r]) else None),
@@ -135,7 +140,8 @@ def main(model: str | None, only_retrieval: bool, ids: list[str] | None, judge_m
               "run_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
               "metrics": score(rows), "spend_usd": round(spent_usd() - spend0, 5), "rows": rows}
     RUNS.mkdir(exist_ok=True)
-    out = RUNS / f"w2_{model.split('/')[-1]}_{result['run_at'][:19].replace(':', '')}.json"
+    prefix = "w2partial" if ids else "w2"          # a --cases subset never counts as a full run in the report
+    out = RUNS / f"{prefix}_{model.split('/')[-1]}_{result['run_at'][:19].replace(':', '')}.json"
     out.write_text(json.dumps(result, indent=2, ensure_ascii=False))
     print(json.dumps({"model": model, **result["metrics"], "spend_usd": result["spend_usd"]}, indent=2))
     for r in rows:

@@ -179,3 +179,29 @@ def test_cr001_list_erase_and_consent_endpoints(env):
     assert c.post("/v1/w2/consents", json={"grantee_id": "P-PRIYA", "days": 30}, headers=bearer("P00637")).status_code == 201
     assert c.delete("/v1/w2/consents/P-PRIYA", headers=bearer("P00637")).json() == {"withdrawn": 1}
     assert c.post("/v1/w2/consents", json={"grantee_id": "P-NOBODY"}, headers=bearer("P00637")).status_code == 422
+
+
+def test_patient_page_and_static_files_are_served(env):
+    c, _ = env
+    r = c.get("/")
+    assert r.status_code == 200 and "Sahyog Care Companion" in r.text
+    assert c.get("/static/app.js").status_code == 200 and c.get("/static/app.css").status_code == 200
+
+
+def test_demo_sign_in_is_off_unless_enabled(env, monkeypatch):
+    c, _ = env
+    assert c.post("/demo/token", json={"patient_id": "P-PRIYA"}).status_code == 404
+    monkeypatch.setenv("DEMO_MODE", "true")
+    tok = c.post("/demo/token", json={"patient_id": "P-PRIYA"}).json()["token"]
+    assert c.get("/v1/me", headers={"Authorization": f"Bearer {tok}"}).json() == {
+        "sub": "P-PRIYA", "role": "patient", "patient_id": "P-PRIYA", "name": "Priya Deshmukh"}
+    assert c.post("/demo/token", json={"patient_id": "P00219"}).status_code == 403     # not a demo persona
+
+
+def test_consent_listing_both_directions(env):
+    c, _ = env
+    c.post("/v1/w2/consents", json={"grantee_id": "P-PRIYA", "days": 30}, headers=bearer("P00637"))
+    mine = c.get("/v1/w2/consents", headers=bearer("P00637")).json()
+    theirs = c.get("/v1/w2/consents", headers=bearer("P-PRIYA")).json()
+    assert [g["grantee_name"] for g in mine["given"]] == ["Priya Deshmukh"] and mine["received"] == []
+    assert theirs["received"][0]["patient_name"] == "Lakshmi Mehta" and theirs["received"][0]["state"] == "valid"
